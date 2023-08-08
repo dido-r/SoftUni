@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace CardsGame
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> hand1 = Console.ReadLine().Split().Select(int.Parse).ToList();
+            List<int> hand2 = Console.ReadLine().Split().Select(int.Parse).ToList();
+
+            for (int i = 0; i < Math.Min(hand1.Count, hand2.Count); i++)
+            {
+                if (hand1[i] > hand2[i])
+                {
+                    hand1.Add(hand2[i]);
+                    hand1.Add(hand1[i]);
+                    hand1.RemoveAt(i);
+                    hand2.RemoveAt(i);
+                    i--;
+                }
+                else if (hand1[i] < hand2[i])
+                {
+                    hand2.Add(hand1[i]);
+                    hand2.Add(hand2[i]);
+                    hand1.RemoveAt(i);
+                    hand2.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    hand1.RemoveAt(i);
+                    hand2.RemoveAt(i);
+                    i--;
+                }
+
+                if (hand1.Count == 0 || hand2.Count == 0)
+                {
+                    break;
+                }
+            }
+
+            if (hand1.Sum() > hand2.Sum())
+            {
+                Console.WriteLine($"First player wins! Sum: {hand1.Sum()}");
+            }
+            else if (hand1.Sum() < hand2.Sum())
+            {
+                Console.WriteLine($"Second player wins! Sum: {hand2.Sum()}");
+            }
+        }
+    }
+}

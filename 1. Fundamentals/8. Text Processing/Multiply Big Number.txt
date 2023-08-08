@@ -1,0 +1,57 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace MultiplyBigNumber
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string bigNumber = Console.ReadLine();
+            int number = int.Parse(Console.ReadLine());
+
+            if (number ==0)
+            {
+                Console.WriteLine(0);
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            bool isRemain = false;
+            string remainder = "";
+
+            for (int i = bigNumber.Length - 1; i >= 0; i--)
+            {
+                int num = int.Parse(bigNumber[i].ToString());
+                int result = num * number;
+                string resultToString = result.ToString();
+                
+                if (isRemain)
+                {
+                    result += int.Parse(remainder);
+                    isRemain = false;
+                    resultToString = result.ToString();
+                }
+                if (i == 0)
+                {
+                    sb.Insert(0, resultToString);
+                    break;
+                }
+
+                if (resultToString.Length == 1)
+                {
+                    sb.Insert(0, resultToString);
+                }
+                else
+                {
+                    sb.Insert(0, resultToString[resultToString.Length - 1]);
+                    remainder = resultToString.Remove(resultToString.Length - 1);
+                    isRemain = true;
+                }
+            }
+            Console.WriteLine(sb);
+        }
+    }
+}

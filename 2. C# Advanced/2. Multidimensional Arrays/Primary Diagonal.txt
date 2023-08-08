@@ -1,0 +1,34 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace PrimaryDiagonal
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int[,] matrix = new int[n, n];
+
+            for (int i = 0; i < n; i++)
+            {
+                int[] rows = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+                for (int j = 0; j < rows.Length; j++)
+                {
+                    matrix[i, j] = rows[j];
+                }
+            }
+            int sum = 0;
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                sum += matrix[i, i];
+            }
+            Console.WriteLine(sum);
+        }
+    }
+}

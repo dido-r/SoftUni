@@ -1,0 +1,104 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Bombs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int size = int.Parse(Console.ReadLine());
+            int[,] matrix = new int[size, size];
+
+            for (int i = 0; i < size; i++)
+            {
+                int[] rowInput = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+
+                for (int j = 0; j < size; j++)
+                {
+                    matrix[i, j] = rowInput[j];
+                }
+            }
+
+            string[] coordinates = Console.ReadLine().Split();
+
+            foreach (var data in coordinates)
+            {
+                int bombRow = int.Parse(data[0].ToString());
+                int bombCol = int.Parse(data[2].ToString());
+                int power = matrix[bombRow, bombCol];
+
+                if (matrix[bombRow, bombCol] <= 0)
+                {
+                    continue;
+                }
+
+                if (InRange(matrix, bombRow - 1, bombCol - 1) && matrix[bombRow - 1, bombCol - 1] > 0)
+                {
+                    matrix[bombRow - 1, bombCol - 1] -= power;
+                }
+                if (InRange(matrix, bombRow - 1, bombCol) && matrix[bombRow - 1, bombCol] > 0)
+                {
+                    matrix[bombRow - 1, bombCol] -= power;
+                }
+                if (InRange(matrix, bombRow - 1, bombCol + 1) && matrix[bombRow - 1, bombCol + 1] > 0)
+                {
+                    matrix[bombRow - 1, bombCol + 1] -= power;
+                }
+                if (InRange(matrix, bombRow, bombCol - 1) && matrix[bombRow, bombCol - 1] > 0)
+                {
+                    matrix[bombRow, bombCol - 1] -= power;
+                }
+                if (InRange(matrix, bombRow, bombCol + 1) && matrix[bombRow, bombCol + 1] > 0)
+                {
+                    matrix[bombRow, bombCol + 1] -= power;
+                }
+                if (InRange(matrix, bombRow + 1, bombCol - 1) && matrix[bombRow + 1, bombCol - 1] > 0)
+                {
+                    matrix[bombRow + 1, bombCol - 1] -= power;
+                }
+                if (InRange(matrix, bombRow + 1, bombCol) && matrix[bombRow + 1, bombCol] > 0)
+                {
+                    matrix[bombRow + 1, bombCol] -= power;
+                }
+                if (InRange(matrix, bombRow + 1, bombCol + 1) && matrix[bombRow + 1, bombCol + 1] > 0)
+                {
+                    matrix[bombRow + 1, bombCol + 1] -= power;
+                }
+                matrix[bombRow, bombCol] = 0;
+            }
+
+            int sum = 0;
+            int aliceCells = 0;
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (matrix[i, j] > 0)
+                    {
+                        sum += matrix[i, j];
+                        aliceCells++;
+                    }
+                }
+            }
+            Console.WriteLine($"Alive cells: {aliceCells}");
+            Console.WriteLine($"Sum: {sum}");
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    Console.Write(matrix[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        private static bool InRange(int[,] matrix, int bombRow, int bombCol)
+        {
+            return bombRow >= 0 && bombRow < matrix.GetLength(0) && bombCol >= 0 && bombCol < matrix.GetLength(1);
+        }
+    }
+}

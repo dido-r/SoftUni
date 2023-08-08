@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BombNumbers
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> list = Console.ReadLine().Split().Select(int.Parse).ToList();
+            int[] bomb = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            int num = bomb[0];
+            int power = bomb[1];
+            int sum = 0;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] == num)
+                {
+                    list[i] = 0;
+
+                    if (i - power >= 0 && i + power < list.Count)
+                    {
+                        RemoveAfter(i, list, power);
+                        RemoveBefore(i, list, power);
+                    }
+                    else
+                    {
+                        if (i - power < 0 && i + power < list.Count)
+                        {
+                            RemoveAfter(i, list, power);
+
+                            for (int l = 0; l < i; l++)
+                            {
+                                list[l] = 0;
+                            }
+                        }
+                        else if (i + power > list.Count - 1 && i - power >= 0)
+                        {
+                            for (int m = i + 1; m < list.Count; m++)
+                            {
+                                list[m] = 0;
+                            }
+
+                            RemoveBefore(i, list, power);
+                        }
+                        else
+                        {
+                            Console.WriteLine(0);
+                            return;
+                        }
+                    }
+                    i = 0;
+                }
+            }
+
+            foreach (int item in list)
+            {
+                sum += item;
+            }
+            Console.WriteLine(sum);
+        }
+
+        static void RemoveAfter(int i, List<int> list, int power)
+        {
+            for (int j = i + 1; j <= i + power; j++)
+            {
+                list[j] = 0;
+            }
+        }
+
+        static void RemoveBefore(int i, List<int> list, int power)
+        {
+            for (int k = i - power; k < i; k++)
+            {
+                list[k] = 0;
+            }
+        }
+    }
+}

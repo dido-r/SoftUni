@@ -1,0 +1,40 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ProductShop
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            Dictionary<string, Dictionary<string, double>> markets = new Dictionary<string, Dictionary<string, double>>();
+
+            while (input != "Revision")
+            {
+                string[] pruductInfo = input.Split(", ");
+                string marketName = pruductInfo[0];
+                string pruductName = pruductInfo[1];
+                double pruductPrice = double.Parse(pruductInfo[2]);
+
+                if (!markets.ContainsKey(marketName))
+                {
+                    markets.Add(marketName, new Dictionary<string, double>());
+                }
+                markets[marketName].Add(pruductName, pruductPrice);
+                input = Console.ReadLine();
+            }
+
+            foreach (var market in markets.OrderBy(name => name.Key))
+            {
+                Console.WriteLine($"{market.Key}->");
+
+                foreach (var item in market.Value)
+                {
+                    Console.WriteLine($"Product: {item.Key}, Price: {item.Value}");
+                }
+            }
+        }
+    }
+}

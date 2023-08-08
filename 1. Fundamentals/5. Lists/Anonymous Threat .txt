@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace AnonymousThreat 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            List<string> list = input.Split().ToList();
+            string command = Console.ReadLine();
+
+            while (command != "3:1")
+            {
+                string[] action = command.Split();
+
+                if (action[0] == "merge")
+                {
+                    MergeElements(action, list);
+                }
+                else if (action[0] == "divide")
+                {
+                    DivideElements(action, list);
+                }
+
+                command = Console.ReadLine();
+            }
+
+            Console.WriteLine(string.Join(" ", list));
+        }
+
+        static void MergeElements(string[] action, List<string> list)
+        {
+            if (int.Parse(action[1]) < 0)
+            {
+                action[1] = "0";
+            }
+            if (int.Parse(action[2]) > list.Count - 1)
+            {
+                action[2] = (list.Count - 1).ToString();
+            }
+
+            for (int i = int.Parse(action[1]); i < int.Parse(action[2]); i++)
+            {
+                list[int.Parse(action[1])] += list[i + 1];
+                list[i + 1] = "$%^!@";
+            }
+
+            list.RemoveAll(item => item == "$%^!@");
+        }
+
+        static void DivideElements(string[] action, List<string> list)
+        {
+            List<String> tempList = new List<string>();
+            string currentIndex = list[int.Parse(action[1])];
+            int elementsInPart = currentIndex.Length / int.Parse(action[2]);
+            int additionalElements = currentIndex.Length % int.Parse(action[2]);
+
+            for (int i = 0; i < int.Parse(action[2]); i++)
+            {
+                if (i == int.Parse(action[2]) - 1)
+                {
+                    elementsInPart += additionalElements;
+                }
+                tempList.Add(currentIndex.Substring(0, elementsInPart));
+                currentIndex = currentIndex.Remove(0, elementsInPart);
+            }
+
+            list.RemoveAt(int.Parse(action[1]));
+            list.InsertRange(int.Parse(action[1]), tempList);
+        }
+    }
+}

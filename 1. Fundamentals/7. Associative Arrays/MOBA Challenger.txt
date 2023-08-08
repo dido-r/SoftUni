@@ -1,0 +1,101 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace MOBAChallenger
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            Dictionary<string, Dictionary<string, int>> players = new Dictionary<string, Dictionary<string, int>>();
+
+            while (input != "Season end")
+            {
+                if (input.Contains(" -> "))
+                {
+                    PlayerPosition(input, players);
+                }
+                else if (input.Contains(" vs "))
+                {
+                    Battle(input, players);
+                }
+                input = Console.ReadLine();
+            }
+
+            foreach (var player in players.OrderByDescending(total => total.Value.Values.Sum()).ThenBy(name => name.Key))
+            {
+                Console.WriteLine($"{player.Key}: {player.Value.Values.Sum()} skill");
+
+                foreach (var item in player.Value.OrderByDescending(points => points.Value).ThenBy(name => name.Key))
+                {
+                    Console.WriteLine($"- {item.Key} <::> {item.Value}");
+                }
+            }
+        }
+
+        static void PlayerPosition(string input, Dictionary<string, Dictionary<string, int>> players)
+        {
+            string[] data = input.Split(" -> ");
+            string player = data[0];
+            string position = data[1];
+            int skill = int.Parse(data[2]);
+
+            if (!players.ContainsKey(player))
+            {
+                players.Add(player, new Dictionary<string, int>());
+                players[player].Add(position, skill);
+            }
+            else
+            {
+                if (!players[player].ContainsKey(position))
+                {
+                    players[player].Add(position, skill);
+                }
+                else if (players[player][position] < skill)
+                {
+                    players[player][position] = skill;
+                }
+            }
+        }
+
+        static void Battle(string input, Dictionary<string, Dictionary<string, int>> players)
+        {
+            string[] data = input.Split(" vs ");
+            string player1 = data[0];
+            string player2 = data[1];
+
+            if (players.ContainsKey(player1) && players.ContainsKey(player2))
+            {
+                bool isBattle = false;
+
+                foreach (var place1 in players[player1])
+                {
+                    foreach (var place2 in players[player2])
+                    {
+                        if (place1.Key == place2.Key)
+                        {
+                            isBattle = true;
+                        }
+                    }
+                }
+
+                int player1Points = players[player1].Values.Sum();
+                int player2Points = players[player2].Values.Sum();
+
+                if (isBattle)
+                {
+                    if (player1Points > player2Points)
+                    {
+                        players.Remove(player2);
+                    }
+                    else if (player1Points < player2Points)
+                    {
+                        players.Remove(player1);
+                    }
+                }
+            }
+        }
+    }
+}

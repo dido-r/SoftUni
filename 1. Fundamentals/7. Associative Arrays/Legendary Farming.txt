@@ -1,0 +1,86 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace LegendaryFarming
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string firstMaterial = "";
+            Dictionary<string, int> materials = new Dictionary<string, int>();
+
+            while (true)
+            {
+                string[] input = Console.ReadLine().Split();
+
+                for (int i = 0; i < input.Length; i += 2)
+                {
+                    string currentMaterial = input[i + 1].ToLower();
+
+                    if (!materials.ContainsKey(currentMaterial))
+                    {
+                        materials.Add(currentMaterial, int.Parse(input[i]));
+                    }
+                    else
+                    {
+                        materials[currentMaterial] += int.Parse(input[i]);
+                    }
+                    if (materials[currentMaterial] >= 250 && (currentMaterial == "shards" || currentMaterial == "fragments" || currentMaterial == "motes"))
+                    {
+                        firstMaterial = currentMaterial;
+                        materials[currentMaterial] -= 250;
+                        break;
+                    }
+                }
+
+                if (firstMaterial != "")
+                {
+                    break;
+                }
+            }
+
+            if (firstMaterial == "shards")
+            {
+                Console.WriteLine("Shadowmourne obtained!");
+            }
+            else if (firstMaterial == "fragments")
+            {
+                Console.WriteLine("Valanyr obtained!");
+            }
+            else if (firstMaterial == "motes")
+            {
+                Console.WriteLine("Dragonwrath obtained!");
+            }
+
+            Dictionary<string, int> remainingKey = new Dictionary<string, int>();
+            remainingKey.Add("shards", 0);
+            remainingKey.Add("fragments", 0);
+            remainingKey.Add("motes", 0);
+            Dictionary<string, int> junk = new Dictionary<string, int>();
+
+            foreach (var item in materials)
+            {
+                if (item.Key == "shards" || item.Key == "fragments" || item.Key == "motes")
+                {
+                    remainingKey[item.Key] = item.Value;
+                }
+                else
+                {
+                    junk.Add(item.Key, item.Value);
+                }
+            }
+
+            foreach (var item in remainingKey.OrderByDescending(x => x.Value).ThenBy(x => x.Key))
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
+            }
+
+            foreach (var item in junk.OrderBy(x => x.Key))
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
+            }
+        }
+    }
+}

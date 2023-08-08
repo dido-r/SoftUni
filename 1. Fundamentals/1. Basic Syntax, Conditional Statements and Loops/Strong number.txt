@@ -1,0 +1,39 @@
+using System;
+using System.Linq;
+
+namespace StrongNumber
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num = int.Parse(Console.ReadLine());
+
+            int tempNumber = num;
+                        int factSum = 0;
+
+            while (tempNumber != 0)
+            {
+                int currNum = tempNumber % 10;
+                tempNumber /= 10;
+                int factorial = 1;
+
+                for (int i = 1; i <= currNum; i++)
+                {
+                    factorial *= i;
+                }
+                factSum += factorial;
+            }
+
+            if (factSum == num)
+            {
+                Console.WriteLine("yes");
+            }
+            else
+            {
+                Console.WriteLine("no");
+            }
+            
+        }
+    }
+}

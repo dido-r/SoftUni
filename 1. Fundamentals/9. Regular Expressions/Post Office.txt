@@ -1,0 +1,36 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace PostOffice
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] text = Console.ReadLine().Split("|");
+
+            Match capitalLetters = Regex.Match(text[0], @"([#\$\%\*\&])([A-Z]+)\1");
+            string letters = capitalLetters.Groups[2].Value;
+
+            MatchCollection matches = Regex.Matches(text[1], @"(6[5-9]|7[0-9]|8[0-9]|90):(\d{2})");
+            Dictionary<int, int> lenghtList = new Dictionary<int, int>();
+            foreach (Match pair in matches)
+            {
+                if (!lenghtList.ContainsKey(int.Parse(pair.Groups[1].Value)))
+                {
+                    lenghtList.Add(int.Parse(pair.Groups[1].Value), int.Parse(pair.Groups[2].Value));
+                }
+            }
+
+            for (int i = 0; i < letters.Length; i++)
+            {
+                var currentLetter = lenghtList.First(x => x.Key == (int)letters[i]);
+                Match word = Regex.Match(text[2], @"[\s||](" + letters[i] + @"[^\s]{" + currentLetter.Value + @"})(\s|$)");
+                Console.WriteLine(word.Groups[1].Value.ToString());
+            }
+        }
+    }
+}

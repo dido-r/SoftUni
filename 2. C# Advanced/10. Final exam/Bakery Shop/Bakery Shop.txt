@@ -1,0 +1,78 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace BakeryShop
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Queue<double> water = new Queue<double>(Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(double.Parse));
+            Stack<double> flour = new Stack<double>(Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(double.Parse));
+            Dictionary<string, int> products = new Dictionary<string, int> 
+            {
+                { "Croissant" , 0},
+                { "Muffin" , 0},
+                { "Baguette" , 0},
+                { "Bagel" , 0}
+            };
+
+            while (water.Count != 0 && flour.Count != 0)
+            {
+                double sum = water.Peek() + flour.Peek();
+
+                if ((water.Peek()*100)/sum == 50)
+                {
+                    products["Croissant"] += 1;
+                    flour.Pop();
+                }
+                else if ((water.Peek() * 100) / sum == 40)
+                {
+                    products["Muffin"] += 1;
+                    flour.Pop();
+                }
+                else if ((water.Peek() * 100) / sum == 30)
+                {
+                    products["Baguette"] += 1;
+                    flour.Pop();
+                }
+                else if ((water.Peek() * 100) / sum == 20)
+                {
+                    products["Bagel"] += 1;
+                    flour.Pop();
+                }
+                else
+                {
+                    products["Croissant"] += 1;
+                    var currentFlour = flour.Pop() - water.Peek();
+                    flour.Push(currentFlour);
+                }
+                water.Dequeue();
+            }
+
+            foreach (var product in products.Where(x => x.Value != 0).OrderByDescending(x => x.Value).ThenBy(x => x.Key))
+            {
+                Console.WriteLine($"{product.Key}: {product.Value}");
+            }
+
+            if (water.Count != 0)
+            {
+                Console.WriteLine($"Water left: {string.Join(", ",water)}");
+            }
+            else
+            {
+                Console.WriteLine("Water left: None");
+            }
+
+            if (flour.Count != 0)
+            {
+                Console.WriteLine($"Flour left: {string.Join(", ", flour)}");
+            }
+            else
+            {
+                Console.WriteLine("Flour left: None");
+            }
+        }
+    }
+}

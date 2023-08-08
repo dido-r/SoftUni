@@ -1,0 +1,43 @@
+using System;
+using System.Linq;
+
+namespace MaxSequenceOfEqualElements
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] arr = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+            int maxCount = 0;
+            int count = 0;
+            int index = 0;
+
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+
+                if (arr[i] == arr[i + 1])
+                {
+                    count++;
+                }
+                else
+                {
+                    count = 0;
+                }
+                if (count > maxCount)
+                {
+                    maxCount = count;
+                    index = arr[i];
+                }
+            }
+
+            int[] maxArr = new int[maxCount + 1];
+
+            for (int i = 0; i < maxArr.Length; i++)
+            {
+                maxArr[i] = index;
+            }
+            Console.WriteLine(string.Join(" ", maxArr));
+        }
+    }
+}

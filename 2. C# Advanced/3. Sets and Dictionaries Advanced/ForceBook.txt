@@ -1,0 +1,77 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ForceBook
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            Dictionary<string, SortedSet<string>> list = new Dictionary<string, SortedSet<string>>();
+
+            while (input != "Lumpawaroo")
+            {
+                if (input.Contains(" | "))
+                {
+                    string[] data = input.Split(" | ");
+                    bool isUser = false;
+
+                    if (!list.ContainsKey(data[0]))
+                    {
+                        list.Add(data[0], new SortedSet<string>());
+                    }
+                    foreach (var side in list)
+                    {
+                        if (side.Value.Contains(data[1]))
+                        {
+                            isUser = true;
+                        }
+                    }
+                    if (!isUser)
+                    {
+                        list[data[0]].Add(data[1]);
+                    }
+                }
+                else if (input.Contains(" -> "))
+                {
+                    string[] data = input.Split(" -> ");
+                    bool isUser = false;
+                    string currenetSide = string.Empty;
+
+                    foreach (var side in list)
+                    {
+                        if (side.Value.Contains(data[0]))
+                        {
+                            isUser = true;
+                            currenetSide = side.Key;
+                        }
+                    }
+
+                    if (isUser)
+                    {
+                        list[currenetSide].Remove(data[0]);
+                    }
+                    if (!list.ContainsKey(data[1]))
+                    {
+                        list.Add(data[1], new SortedSet<string>());
+                    }
+                    list[data[1]].Add(data[0]);
+                    Console.WriteLine($"{data[0]} joins the {data[1]} side!");
+                }
+                input = Console.ReadLine();
+            }
+
+            foreach (var side in list.OrderByDescending(x => x.Value.Count).ThenBy(y => y.Key).Where(z => z.Value.Count > 0))
+            {
+                Console.WriteLine($"Side: {side.Key}, Members: {side.Value.Count}");
+
+                foreach (var user in side.Value)
+                {
+                    Console.WriteLine($"! {user}");
+                }
+            }
+        }
+    }
+}

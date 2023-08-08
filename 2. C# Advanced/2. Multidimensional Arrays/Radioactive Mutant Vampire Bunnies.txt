@@ -1,0 +1,191 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace RadioactiveMutantVampireBunnies
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] size = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            int rows = size[0];
+            int cols = size[1];
+            char[,] field = new char[rows, cols];
+            int currentRow = 0;
+            int currentCol = 0;
+
+            for (int i = 0; i < rows; i++)
+            {
+                string inputRow = Console.ReadLine();
+
+                for (int j = 0; j < cols; j++)
+                {
+                    field[i, j] = inputRow[j];
+
+                    if (field[i, j] == 'P')
+                    {
+                        currentRow = i;
+                        currentCol = j;
+                    }
+                }
+            }
+            string command = Console.ReadLine();
+            Console.WriteLine();
+
+            foreach (char letter in command)
+            {
+                field[currentRow, currentCol] = '.';
+                List<int> list = new List<int>();
+
+                for (int i = 0; i < rows; i++)
+                {
+                    for (int j = 0; j < cols; j++)
+                    {
+                        if (field[i, j] == 'B')
+                        {
+                            list.Add(i);
+                            list.Add(j);
+                        }
+                    }
+                }
+
+                if (letter == 'U')
+                {
+                    if (currentRow > 0)
+                    {
+                        currentRow -= 1;
+                    }
+                    else
+                    {
+                        Bunny(field, list);
+                        WinPrint(field, currentRow, currentCol);
+                    }
+                }
+                else if (letter == 'D')
+                {
+                    if (currentRow < rows - 1)
+                    {
+                        currentRow += 1;
+                    }
+                    else
+                    {
+                        Bunny(field, list);
+                        WinPrint(field, currentRow, currentCol);
+                    }
+                }
+                else if (letter == 'L')
+                {
+                    if (currentCol > 0)
+                    {
+                        currentCol -= 1;
+                    }
+                    else
+                    {
+                        Bunny(field, list);
+                        WinPrint(field, currentRow, currentCol);
+                    }
+                }
+                else if (letter == 'R')
+                {
+                    if (currentCol < cols - 1)
+                    {
+                        currentCol += 1;
+                    }
+                    else
+                    {
+                        Bunny(field, list);
+                        WinPrint(field, currentRow, currentCol);
+                    }
+                }
+
+                if (field[currentRow, currentCol] == 'B')
+                {
+                    Bunny(field, list);
+                    PrintField(field);
+                    Console.WriteLine($"dead: {currentRow} {currentCol}");
+                    Environment.Exit(0);
+                }
+                else if (field[currentRow, currentCol] == '.')
+                {
+                    field[currentRow, currentCol] = 'P';
+                    Bunny(field, list);
+                    CheckForPlayer(field, currentRow, currentCol);
+                }
+            }
+        }
+
+        static void Bunny(char[,] field, List<int> list)
+        {
+            for (int i = 0; i < list.Count; i += 2)
+            {
+                int bunnyRow = list[i];
+                int bunnyCol = list[i + 1];
+
+                if (InRange(field, bunnyRow - 1, bunnyCol) && field[bunnyRow - 1, bunnyCol] > 0)
+                {
+                    field[bunnyRow - 1, bunnyCol] = 'B';
+                }
+                if (InRange(field, bunnyRow, bunnyCol - 1) && field[bunnyRow, bunnyCol - 1] > 0)
+                {
+                    field[bunnyRow, bunnyCol - 1] = 'B';
+                }
+                if (InRange(field, bunnyRow, bunnyCol + 1) && field[bunnyRow, bunnyCol + 1] > 0)
+                {
+                    field[bunnyRow, bunnyCol + 1] = 'B';
+                }
+                if (InRange(field, bunnyRow + 1, bunnyCol) && field[bunnyRow + 1, bunnyCol] > 0)
+                {
+                    field[bunnyRow + 1, bunnyCol] = 'B';
+                }
+            }
+        }
+
+        private static bool InRange(char[,] field, int bunnyRow, int bunnyCol)
+        {
+            return bunnyRow >= 0 && bunnyRow < field.GetLength(0) && bunnyCol >= 0 && bunnyCol < field.GetLength(1);
+        }
+
+        static void CheckForPlayer(char[,] field, int currentRow, int currentCol)
+        {
+            bool isPlayer = false;
+
+            for (int i = 0; i < field.GetLength(0); i++)
+            {
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    if (field[i, j] == 'P')
+                    {
+                        isPlayer = true;
+                    }
+                }
+            }
+
+            if (isPlayer == false)
+            {
+                PrintField(field);
+                Console.WriteLine($"dead: {currentRow} {currentCol}");
+                Environment.Exit(0);
+            }
+        }
+
+        static void PrintField(char[,] field)
+        {
+            for (int i = 0; i < field.GetLength(0); i++)
+            {
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    Console.Write(field[i, j]);
+                }
+                Console.WriteLine();
+            }
+        }
+
+        static void WinPrint(char[,] field, int currentRow, int currentCol)
+        {
+            PrintField(field);
+            Console.WriteLine($"won: {currentRow} {currentCol}");
+            Environment.Exit(0);
+        }
+    }
+}

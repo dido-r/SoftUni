@@ -1,0 +1,88 @@
+1. REST Countries
+
+//Make a request for retrieving information about Bulgaria
+
+GET https://restcountries.com/v2/name/Bulgaria
+
+//Make a request that retrieving only the fields name, capital, region, population for the country Italy.
+
+GET https://restcountries.com/v2/name/Italy?fields=name,capital,region,population
+
+// Make a request that takes all German-speaking countries
+
+GET https://restcountries.com/v2/lang/de?fields=name,region
+
+2. Bus Stop
+
+GET http://localhost:3030/jsonstore/bus/businfo/{id}
+
+3. Phonebook GET
+
+GET http://localhost:3030/jsonstore/phonebook
+
+4. Phonebook POST
+
+POST  http://localhost:3030/jsonstore/phonebook 
+
+body:
+
+{
+"person": "Dido",
+"phone": "11111"
+}
+
+5. Employees
+
+//GET
+//all
+
+GET https://dummy.restapiexample.com/api/v1/employees
+
+//specific
+
+GET https://dummy.restapiexample.com/api/v1/employee/6
+
+//POST
+
+POST https://dummy.restapiexample.com/api/v1/create
+
+body:
+
+{
+"status": "success",
+"data": {
+    "id": 2866,
+    "employee_name": "Dimitrichko Parvanov",
+    "employee_salary": 1010101,
+    "employee_age": 37,
+}
+"message": "Successfully! Record has been added."
+}
+
+//PUT
+
+PUT https://dummy.restapiexample.com/api/v1/update/21
+
+body:
+
+{
+"status": "success",
+"data": [],
+"message": "Successfully! Record has been updated."
+}
+
+// DELETE 
+
+DELETE https://dummy.restapiexample.com/api/v1/delete/2
+
+6. Firebase App
+
+GET https://js-app-softuni-default-rtdb.europe-west1.firebasedatabase.app/.json
+
+7. Backendless App
+
+GET https://facilepail.backendless.app/api/data/TracksAndArtists
+
+8. Back4App App
+
+GET https://parseapi.back4app.com/classes/Students

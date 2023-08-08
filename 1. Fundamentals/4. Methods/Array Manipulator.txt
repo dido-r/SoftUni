@@ -1,0 +1,235 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ArrayManipulator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] arr = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            string input = Console.ReadLine();
+
+            while (input != "end")
+            {
+                string[] command = input.Split();
+
+                if (command[0] == "max" || command[0] == "min")
+                {
+                    MaxEvenOdd(arr, input, command);
+                }
+                else if (command[0] == "exchange")
+                {
+                    ReplaceArrayIndexes(arr, input, command);
+                }
+                else if (command[0] == "first" || command[0] == "last")
+                {
+                    FirstOrLastEvenOdd(arr, input, command);
+                }
+                input = Console.ReadLine();
+            }
+            Console.WriteLine($"[{string.Join(", ", arr)}]");
+        }
+
+        static void ReplaceArrayIndexes(int[] arr, string input, string[] command)
+        {
+            int index = int.Parse(command[1]);
+
+            if (index < 0 || index > arr.Length - 1)
+            {
+                Console.WriteLine("Invalid index");
+            }
+            else
+            {
+                for (int i = 0; i <= index; i++)
+                {
+                    int tempNum = arr[0];
+
+                    for (int j = 0; j < arr.Length - 1; j++)
+                    {
+                        arr[j] = arr[j + 1];
+                    }
+                    arr[arr.Length - 1] = tempNum;
+                }
+            }
+        }
+
+        static void MaxEvenOdd(int[] arr, string input, string[] command)
+        {
+            string value = command[0];
+            string number = command[1];
+            int maxValue = int.MinValue;
+            int minValue = int.MaxValue;
+            int printIndex = 0;
+            bool isMaxOrMin = false;
+
+            if (value == "max")
+            {
+                if (number == "even")
+                {
+                    for (int i = 0; i < arr.Length; i++)
+                    {
+                        if (arr[i] % 2 == 0 && arr[i] >= maxValue)
+                        {
+                            maxValue = arr[i];
+                            printIndex = i;
+                            isMaxOrMin = true;
+                        }
+                    }
+                }
+                else if (number == "odd")
+                {
+                    for (int i = 0; i < arr.Length; i++)
+                    {
+                        if (arr[i] % 2 != 0 && arr[i] >= maxValue)
+                        {
+                            maxValue = arr[i];
+                            printIndex = i;
+                            isMaxOrMin = true;
+                        }
+                    }
+                }
+            }
+            else if (value == "min")
+            {
+                if (number == "even")
+                {
+                    for (int i = 0; i < arr.Length; i++)
+                    {
+                        if (arr[i] % 2 == 0 && arr[i] <= minValue)
+                        {
+                            minValue = arr[i];
+                            printIndex = i;
+                            isMaxOrMin = true;
+                        }
+                    }
+                }
+                else if (number == "odd")
+                {
+                    for (int i = 0; i < arr.Length; i++)
+                    {
+                        if (arr[i] % 2 != 0 && arr[i] <= minValue)
+                        {
+                            minValue = arr[i];
+                            printIndex = i;
+                            isMaxOrMin = true;
+                        }
+                    }
+                }
+            }
+            if (!isMaxOrMin)
+            {
+                Console.WriteLine("No matches");
+            }
+            else
+            {
+                Console.WriteLine(printIndex);
+            }
+        }
+
+        static void FirstOrLastEvenOdd(int[] arr, string input, string[] command)
+        {
+            int index = int.Parse(command[1]);
+            int count = 0;
+            List<int> firstLast = new List<int>();
+
+            if (index > arr.Length)
+            {
+                Console.WriteLine("Invalid count");
+                return;
+            }
+            else
+            {
+                if (command[0] == "first")
+                {
+                    if (command[2] == "even")
+                    {
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            if (arr[i] % 2 == 0)
+                            {
+                                firstLast.Add(arr[i]);
+                                count++;
+
+                                if (count == index)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (command[2] == "odd")
+                    {
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            if (arr[i] % 2 != 0)
+                            {
+                                firstLast.Add(arr[i]);
+                                count++;
+
+                                if (count == index)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (command[0] == "last")
+                {
+                    if (command[2] == "even")
+                    {
+                        for (int i = arr.Length - 1; i >= 0; i--)
+                        {
+                            if (arr[i] % 2 == 0)
+                            {
+                                firstLast.Add(arr[i]);
+                                count++;
+
+                                if (count == index)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (command[2] == "odd")
+                    {
+                        for (int i = arr.Length - 1; i >= 0; i--)
+                        {
+                            if (arr[i] % 2 != 0)
+                            {
+                                firstLast.Add(arr[i]);
+                                count++;
+
+                                if (count == index)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (count != 0)
+            {
+
+                switch (command[0])
+                {
+                    case "first":
+                        Console.WriteLine($"[{string.Join(", ", firstLast)}]");
+                        break;
+                    case "last":
+                        firstLast.Reverse();
+                        Console.WriteLine($"[{string.Join(", ", firstLast)}]");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("[]");
+            }
+        }
+    }
+}

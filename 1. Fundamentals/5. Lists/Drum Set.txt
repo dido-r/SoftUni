@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace DrumSet
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double savings = double.Parse(Console.ReadLine());
+            List<int> drumSet = Console.ReadLine().Split().Select(int.Parse).ToList();
+            List<int> initialQuality = new List<int>();
+            
+            for (int i = 0; i < drumSet.Count; i++)
+            {
+                initialQuality.Add(drumSet[i]);
+            }
+            
+            string input = Console.ReadLine();
+
+            while (input != "Hit it again, Gabsy!")
+            {
+                int hitPower = int.Parse(input);
+
+                for (int i = 0; i < drumSet.Count; i++)
+                {
+                    drumSet[i] -= hitPower;
+
+                    if (drumSet[i] <= 0 && initialQuality[i] * 3 <= savings)
+                    {
+                        drumSet[i] = initialQuality[i];
+                        savings -= initialQuality[i] * 3;
+                    }
+                    else if (drumSet[i] <= 0 && initialQuality[i] * 3 >= savings)
+                    {
+                        drumSet.RemoveAt(i);
+                        initialQuality.RemoveAt(i);
+                        i--;
+                    }
+                }
+                input = Console.ReadLine();
+            }
+            Console.WriteLine(string.Join(" ", drumSet));
+            Console.WriteLine($"Gabsy has {savings:f2}lv.");
+        }
+    }
+}

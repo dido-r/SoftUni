@@ -1,0 +1,70 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace VLogger
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            List<Vlogger> vloggers = new List<Vlogger>();
+
+            while (input != "Statistics")
+            {
+                string[] data = input.Split();
+
+                if (data[1] == "joined")
+                {
+                    Vlogger vlogger = new Vlogger();
+                    vlogger.Name = data[0];
+                    vlogger.Followers = new List<string>();
+                    vlogger.Following = new List<string>();
+
+                    if (!vloggers.Exists(name => name.Name == data[0]))
+                    {
+                        vloggers.Add(vlogger);
+                    }
+                }
+                else if (data[1] == "followed")
+                {
+                    if (vloggers.Exists(name => name.Name == data[0]) && vloggers.Exists(name => name.Name == data[2]))
+                    {
+                        var currentVlogger = vloggers.First(x => x.Name == data[0]);
+                        var followedVlogger = vloggers.First(y => y.Name == data[2]);
+
+                        if (vloggers.Contains(currentVlogger) && vloggers.Contains(followedVlogger) && data[0] != data[2] && !currentVlogger.Following.Contains(data[2]))
+                        {
+                            currentVlogger.Following.Add(data[2]);
+                            followedVlogger.Followers.Add(data[0]);
+                        }
+                    }
+                }
+                input = Console.ReadLine();
+            }
+            Console.WriteLine($"The V-Logger has a total of {vloggers.Count} vloggers in its logs.");
+            int poisition = 1;
+
+            foreach (var vlogger in vloggers.OrderByDescending(x => x.Followers.Count).ThenBy(y => y.Following.Count))
+            {
+                Console.WriteLine($"{poisition++}. {vlogger.Name} : {vlogger.Followers.Count} followers, {vlogger.Following.Count} following");
+
+                if (poisition == 2)
+                {
+                    foreach (var item in vlogger.Followers.OrderBy(name => name))
+                    {
+                        Console.WriteLine($"*  {item}");
+                    }
+                }
+            }
+        }
+        class Vlogger
+        {
+            public string Name { get; set; }
+            public List<string> Followers { get; set; }
+            public List<string> Following { get; set; }
+        }
+    }
+
+}

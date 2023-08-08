@@ -1,0 +1,23 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace ExtractEmails
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MatchCollection emails = Regex.Matches(Console.ReadLine(), @"[\.\-_]?[A-Za-z0-9]+[\.\-_]?[A-Za-z0-9]+@[A-Za-z]+\-?[A-Za-z]+\.[A-Za-z]+\-?[A-Za-z]+(\.[A-Za-z]+\-?[A-Za-z]+)?");
+
+            foreach (Match email in emails)
+            {
+                if (Char.IsLetter(email.ToString()[0]))
+                {
+                    Console.WriteLine(email.Value);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+using System;
+
+namespace BalancedBrackets
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            byte lines = byte.Parse(Console.ReadLine());
+            byte count1 = 0;
+            byte count2 = 0;
+            string lastSymbol = "";
+            bool isBalanced = true;
+
+            for (int i = 1; i <= lines; i++)
+            {
+                string symbols = Console.ReadLine();
+
+                if (symbols == "(")
+                {
+                    count1++;
+                    lastSymbol = symbols;
+                }
+                else if (symbols == ")")
+                {
+                    count2++;
+                    lastSymbol = symbols;
+                }
+                if (count1 - count2 == 2 || count2 > count1)
+                {
+                    isBalanced = false;
+                }
+            }
+            if (lastSymbol == "(")
+            {
+                isBalanced = false;
+            }
+
+            if (!isBalanced)
+            {
+                Console.WriteLine("UNBALANCED");
+            }
+            else
+            {
+                Console.WriteLine("BALANCED");
+            }
+        }
+    }
+}

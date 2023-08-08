@@ -1,0 +1,24 @@
+using System;
+
+
+namespace SortNumbers
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num1 = int.Parse(Console.ReadLine());
+            int num2 = int.Parse(Console.ReadLine());
+            int num3 = int.Parse(Console.ReadLine());
+
+            int[] arr = { num1, num2, num3 };
+            Array.Sort(arr);
+            Array.Reverse(arr);
+
+            foreach (int value in arr)
+            {
+                Console.WriteLine(value);
+            }
+        }
+    }
+}

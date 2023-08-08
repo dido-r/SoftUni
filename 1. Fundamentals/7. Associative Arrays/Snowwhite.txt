@@ -1,0 +1,67 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Snowwhite
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            Dictionary<string, Dictionary<string, int>> dwarfs = new Dictionary<string, Dictionary<string, int>>();
+
+            while (input != "Once upon a time")
+            {
+                string[] data = input.Split(" <:> ");
+                string name = data[0];
+                string color = data[1];
+                int physics = int.Parse(data[2]);
+
+                if (!dwarfs.ContainsKey(name))
+                {
+                    dwarfs.Add(name, new Dictionary<string, int>());
+                    dwarfs[name].Add(color, physics);
+                }
+                else
+                {
+                    if (!dwarfs[name].ContainsKey(color))
+                    {
+                        dwarfs[name].Add(color, physics);
+                    }
+                    else if (dwarfs[name][color] < physics)
+                    {
+                        dwarfs[name][color] = physics;
+                    }
+                }
+                input = Console.ReadLine();
+            }
+
+            List<Dwarf> list = new List<Dwarf>();
+
+            foreach (var dwarf in dwarfs)
+            {
+                foreach (var color in dwarf.Value)
+                {
+                    Dwarf guy = new Dwarf();
+                    guy.Name = dwarf.Key;
+                    guy.Color = color.Key;
+                    guy.Physics = color.Value;
+                    list.Add(guy);
+                }
+            }
+
+            foreach (var dwarf in list.OrderByDescending(x => x.Physics).ThenByDescending(x => list.Count(y => y.Color == x.Color)))
+            {
+                Console.WriteLine($"({dwarf.Color}) {dwarf.Name} <-> {dwarf.Physics}");
+            }
+        }
+    }
+
+    class Dwarf
+    {
+        public string Name { get; set; }
+        public string Color { get; set; }
+        public int Physics { get; set; }
+    }
+}

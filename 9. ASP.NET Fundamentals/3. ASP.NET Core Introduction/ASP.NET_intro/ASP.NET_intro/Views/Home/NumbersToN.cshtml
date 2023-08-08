@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Numbers 1 To " + ViewBag.Count;
+}
+
+<div class="text-center">
+    <h2>@ViewBag.Title</h2>
+    @{
+        for (int i = 1; i <= ViewBag.Count; i++)
+        {
+            <li>@i</li>
+        }
+    }
+    <form>
+        <input name="count" value="@ViewBag.Count"></input>
+        <button>Submit</button>
+    </form>
+</div>

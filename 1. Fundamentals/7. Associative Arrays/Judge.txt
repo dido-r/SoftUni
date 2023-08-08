@@ -1,0 +1,75 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Judge
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            Dictionary<string, Dictionary<string, int>> contest = new Dictionary<string, Dictionary<string, int>>();
+            Dictionary<string, int> participatns = new Dictionary<string, int>();
+
+            while (input != "no more time")
+            {
+                string[] data = input.Split(" -> ");
+                string name = data[0];
+                string contestName = data[1];
+                int points = int.Parse(data[2]);
+
+                if (!contest.ContainsKey(contestName))
+                {
+                    contest.Add(contestName, new Dictionary<string, int>());
+                    contest[contestName].Add(name, points);
+                }
+                else
+                {
+
+                    if (!contest[contestName].ContainsKey(name))
+                    {
+                        contest[contestName].Add(name, points);
+                    }
+                    else
+                    {
+                        if (contest[contestName][name] < points)
+                        {
+                            contest[contestName][name] = points;
+                        }
+                    }
+                }
+                input = Console.ReadLine();
+            }
+
+            Dictionary<string, int> students = new Dictionary<string, int>();
+
+            foreach (var course in contest)
+            {
+                Console.WriteLine($"{course.Key}: {course.Value.Count} participants");
+                int place = 1;
+
+                foreach (var student in course.Value.OrderByDescending(points => points.Value).ThenBy(name => name.Key))
+                {
+                    if (!students.ContainsKey(student.Key))
+                    {
+                        students.Add(student.Key, student.Value);
+                    }
+                    else
+                    {
+                        students[student.Key] += student.Value;
+                    }
+                    Console.WriteLine($"{place++}. {student.Key} <::> {student.Value}");
+                }
+            }
+            
+            int n = 1;
+            Console.WriteLine("Individual standings:");
+
+            foreach (var student in students.OrderByDescending(points => points.Value).ThenBy(name => name.Key))
+            {
+                Console.WriteLine($"{n++}. {student.Key} -> {student.Value}");
+            }
+        }
+    }
+}

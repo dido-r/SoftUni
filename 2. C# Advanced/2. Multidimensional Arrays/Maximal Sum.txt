@@ -1,0 +1,57 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace MaximalSum
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] size = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            int rows = size[0];
+            int cols = size[1];
+            int[,] matrix = new int[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                int[] rowInput = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+
+                for (int j = 0; j < cols; j++)
+                {
+                    matrix[i, j] = rowInput[j];
+                }
+            }
+
+            int maxSum = int.MinValue;
+            int sum = 0;
+            int indexRows = 0;
+            int indexCols = 0;
+
+            for (int i = 0; i < rows - 2; i++)
+            {
+                for (int j = 0; j < cols - 2; j++)
+                {
+                    sum = matrix[i, j] + matrix[i, j + 1] + matrix[i, j + 2] + matrix[i + 1, j] + matrix[i + 1, j + 1] + matrix[i + 1, j + 2] + matrix[i + 2, j] + matrix[i + 2, j + 1] + matrix[i + 2, j + 2];
+
+                    if (sum > maxSum)
+                    {
+                        maxSum = sum;
+                        indexRows = i;
+                        indexCols = j;
+                    }
+                }
+            }
+            Console.WriteLine($"Sum = {maxSum}");
+
+            for (int i = indexRows; i < indexRows + 3; i++)
+            {
+                for (int j = indexCols; j < indexCols + 3; j++)
+                {
+                    Console.Write(matrix[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}

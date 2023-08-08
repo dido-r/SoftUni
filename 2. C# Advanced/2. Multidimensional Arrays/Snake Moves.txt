@@ -1,0 +1,58 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace SnakeMoves
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] size = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            int rows = size[0];
+            int cols = size[1];
+            string snake = Console.ReadLine();
+            string correntSnake = snake;
+            char[,] matrix = new char[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    for (int j = 0; j < cols; j++)
+                    {
+                        matrix[i, j] = correntSnake[0];
+                        correntSnake = correntSnake.Remove(0, 1);
+
+                        if (correntSnake == string.Empty)
+                        {
+                            correntSnake = snake;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int l = cols - 1; l >= 0; l--)
+                    {
+                        matrix[i, l] = correntSnake[0];
+                        correntSnake = correntSnake.Remove(0, 1);
+
+                        if (correntSnake == string.Empty)
+                        {
+                            correntSnake = snake;
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    Console.Write(matrix[i,j]);
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}

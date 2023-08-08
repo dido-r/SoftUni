@@ -1,0 +1,31 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace SoftUniBarIncome
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            double totalIncome = 0;
+
+            while (input != "end of shift")
+            {
+                Match match = Regex.Match(input, @"%(?<person>[A-Z][a-z]+)%[A-z\W]*<(?<product>\w+)>[A-z\W]*\|(?<count>\d+)\|[A-z\W]*(?<price>\d+(.\d+)?)\$");
+
+                if (match.Success)
+                {
+                    double totalPrice = int.Parse(match.Groups["count"].Value) * double.Parse(match.Groups["price"].Value);
+                    totalIncome += totalPrice;
+                    Console.WriteLine($"{match.Groups["person"].Value}: {match.Groups["product"].Value} - {totalPrice:f2}");
+                }
+
+                input = Console.ReadLine();
+            }
+            Console.WriteLine($"Total income: {totalIncome:f2}");
+        }
+    }
+}

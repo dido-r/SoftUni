@@ -1,0 +1,35 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace ValidUsernames
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] text = Console.ReadLine().Split(", ");
+
+            foreach (var user in text)
+            {
+                if (user.Length >= 3 && user.Length <= 16)
+                {
+                    bool isValid = true;
+
+                    for (int i = 0; i < user.Length; i++)
+                    {
+                        if (!Char.IsLetterOrDigit(user[i]) && user[i] != '-' && user[i] != '_')
+                        {
+                            isValid = false;
+                        }
+                    }
+                    if (isValid)
+                    {
+                        Console.WriteLine(user);
+                    }
+                }
+            }
+        }
+    }
+}

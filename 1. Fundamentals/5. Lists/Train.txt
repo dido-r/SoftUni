@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Train
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> list = Console.ReadLine().Split().Select(int.Parse).ToList();
+
+            int maxCapacityWagon = int.Parse(Console.ReadLine());
+            string input = Console.ReadLine();
+
+            while (input != "end")
+            {
+                string[] command = input.Split();
+                
+                if (command[0] == "Add")
+                {
+                    list.Add(int.Parse(command[1]));
+                }
+                else
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (int.Parse(command[0]) + list[i] <= maxCapacityWagon)
+                        {
+                            list[i] += int.Parse(command[0]);
+                            break;
+                        }
+                    }
+                }
+                
+                input = Console.ReadLine();
+            }
+
+            Console.WriteLine(string.Join(" ", list));
+        }
+    }
+}

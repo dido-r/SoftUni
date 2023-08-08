@@ -1,0 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace AppendArrays
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            string [] arr = input.Split("|").ToArray();
+            Array.Reverse(arr);
+            string arrText = string.Join(" ", arr);
+            int[] result = arrText.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            Console.WriteLine(string.Join(" ", result));
+        }
+    }
+}

@@ -1,0 +1,78 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace JaggedArrayManipulator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int rows = int.Parse(Console.ReadLine());
+            double[][] matrix = new double[rows][];
+
+            for (int i = 0; i < rows; i++)
+            {
+                int[] input = Console.ReadLine().Split().Select(int.Parse).ToArray();
+                matrix[i] = new double[input.Length];
+
+                for (int j = 0; j < input.Length; j++)
+                {
+                    matrix[i][j] = input[j];
+                }
+            }
+
+            for (int i = 0; i < rows - 1; i++)
+            {
+                if (matrix[i].Length == matrix[i + 1].Length)
+                {
+                    for (int j = 0; j < matrix[i].Length; j++)
+                    {
+                        matrix[i][j] *= 2;
+                        matrix[i + 1][j] *= 2;
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < matrix[i].Length; j++)
+                    {
+                        matrix[i][j] /= 2;
+                    }
+                    for (int l = 0; l < matrix[i + 1].Length; l++)
+                    {
+                        matrix[i + 1][l] /= 2;
+                    }
+                }
+            }
+
+            string command = Console.ReadLine();
+
+            while (command != "End")
+            {
+                string[] data = command.Split();
+
+                if (int.Parse(data[1]) >= 0 && int.Parse(data[2]) >= 0 && int.Parse(data[1]) < rows && int.Parse(data[2]) < matrix[int.Parse(data[1])].Length)
+                {
+                    if (data[0] == "Add")
+                    {
+                        matrix[int.Parse(data[1])][int.Parse(data[2])] += int.Parse(data[3]);
+                    }
+                    else if (data[0] == "Subtract")
+                    {
+                        matrix[int.Parse(data[1])][int.Parse(data[2])] -= int.Parse(data[3]);
+                    }
+                }
+                command = Console.ReadLine();
+            }
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    Console.Write(matrix[i][j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}

@@ -1,0 +1,42 @@
+using System;
+
+namespace EncryptSortAndPrintArray
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int lines = int.Parse(Console.ReadLine());
+            int[] arr = new int[lines];
+
+            for (int i = 0; i < lines; i++)
+            {
+                string name = Console.ReadLine();
+                int code = 0;
+
+                for (int j = 0; j < name.Length; j++)
+                {
+                    string currCode = "";
+                    if (name[j] == 'a' || name[j] == 'e' || name[j] == 'i' || name[j] == 'o' || name[j] == 'u' ||
+                        name[j] == 'A' || name[j] == 'E' || name[j] == 'I' || name[j] == 'O' || name[j] == 'U')
+                    {
+                        currCode += (char)name[j] * name.Length;
+                        code += int.Parse(currCode);
+                    }
+                    else
+                    {
+                        currCode += (char)name[j] / name.Length;
+                        code += int.Parse(currCode);
+                    }
+                }
+                arr[i] = code;
+            }
+            Array.Sort(arr);
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.WriteLine($"{arr[i]}");
+            }
+        }
+    }
+}

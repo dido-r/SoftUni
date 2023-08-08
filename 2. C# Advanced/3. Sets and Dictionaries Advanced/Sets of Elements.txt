@@ -1,0 +1,41 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace SetsOfElements
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] lenght = Console.ReadLine().Split();
+            HashSet<int> set1 = new HashSet<int>();
+            HashSet<int> set2 = new HashSet<int>();
+
+            for (int i = 0; i < int.Parse(lenght[0]); i++)
+            {
+                int input = int.Parse(Console.ReadLine());
+                set1.Add(input);
+            }
+            for (int i = 0; i < int.Parse(lenght[1]); i++)
+            {
+                int input = int.Parse(Console.ReadLine());
+                set2.Add(input);
+            }
+            HashSet<int> final = new HashSet<int>();
+
+            foreach (var item1 in set1)
+            {
+                foreach (var item2 in set2)
+                {
+                    if (item1 == item2)
+                    {
+                        final.Add(item1);
+                    }
+                }
+            } 
+
+            Console.WriteLine(string.Join(" ", final));
+        }
+    }
+}

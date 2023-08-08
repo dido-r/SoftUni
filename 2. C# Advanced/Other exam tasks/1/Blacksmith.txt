@@ -1,0 +1,106 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Blacksmith
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Queue<int> steel = new Queue<int>(Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse));
+            Stack<int> carbon = new Stack<int>(Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse));
+            Dictionary<string, int> swords = new Dictionary<string, int>();
+
+            while (steel.Count != 0 && carbon.Count != 0)
+            {
+                if (steel.Peek() + carbon.Peek() == 70)
+                {
+                    if (!swords.ContainsKey("Gladius"))
+                    {
+                        swords.Add("Gladius", 0);
+                    }
+                    swords["Gladius"] += 1;
+                    carbon.Pop();
+                }
+                else if (steel.Peek() + carbon.Peek() == 80)
+                {
+                    if (!swords.ContainsKey("Shamshir"))
+                    {
+                        swords.Add("Shamshir", 0);
+                    }
+                    swords["Shamshir"] += 1;
+                    carbon.Pop();
+                }
+                else if (steel.Peek() + carbon.Peek() == 90)
+                {
+                    if (!swords.ContainsKey("Katana"))
+                    {
+                        swords.Add("Katana", 0);
+                    }
+                    swords["Katana"] += 1;
+                    carbon.Pop();
+                }
+                else if (steel.Peek() + carbon.Peek() == 110)
+                {
+                    if (!swords.ContainsKey("Sabre"))
+                    {
+                        swords.Add("Sabre", 0);
+                    }
+                    swords["Sabre"] += 1;
+                    carbon.Pop();
+                }
+                else if (steel.Peek() + carbon.Peek() == 150)
+                {
+                    if (!swords.ContainsKey("Broadsword"))
+                    {
+                        swords.Add("Broadsword", 0);
+                    }
+                    swords["Broadsword"] += 1;
+                    carbon.Pop();
+                }
+                else
+                {
+                    int currentCarbon = carbon.Pop() + 5;
+                    carbon.Push(currentCarbon);
+                }
+                steel.Dequeue();
+            }
+
+            if (swords.Count != 0)
+            {
+                Console.WriteLine($"You have forged {swords.Sum(x => x.Value)} swords.");
+            }
+            else
+            {
+                Console.WriteLine($"You did not have enough resources to forge a sword.");
+            }
+
+            if (steel.Count == 0)
+            {
+                Console.WriteLine("Steel left: none");
+            }
+            else
+            {
+                Console.WriteLine($"Steel left: {String.Join(", ", steel)}");
+            }
+
+            if (carbon.Count == 0)
+            {
+                Console.WriteLine("Carbon left: none");
+            }
+            else
+            {
+                Console.WriteLine($"Carbon left: {String.Join(", ", carbon)}");
+            }
+
+            if (swords.Count != 0)
+            {
+                foreach (var sword in swords.OrderBy(x => x.Key))
+                {
+                    Console.WriteLine($"{sword.Key}: {sword.Value}");
+                }
+            }
+        }
+    }
+}

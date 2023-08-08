@@ -1,0 +1,66 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace StringExplosion
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            int remain = 0;
+            bool isDone = false;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+
+                if (input[i] == '>')
+                {
+                    int power = int.Parse(input[i + 1].ToString()) + remain;
+
+                    if (i + 1 + power <= input.Length - 1)
+                    {
+                        for (int j = i + 1; j < i + 1 + power; j++)
+                        {
+                            if (input[j] != '>')
+                            {
+                                input = input.Remove(j, 1);
+                                j--;
+                                remain = --power;
+                            }
+                            else
+                            {
+                                i = --j;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        isDone = true;
+
+                        for (int k = i + 1; k < input.Length; k++)
+                        {
+                            if (input[k] != '>')
+                            {
+                                input = input.Remove(k, 1);
+                                k--;
+                            }
+                            else
+                            {
+                                continue;
+                            }   
+                        }
+                    }
+                }
+                if (isDone)
+                {
+                    break;
+                }
+            }
+            Console.WriteLine(input);
+        }
+    }
+}

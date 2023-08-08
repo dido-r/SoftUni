@@ -1,0 +1,181 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace PawnWars
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[,] board = new string[8, 8];
+            int whiteRow = 0;
+            int whiteCol = 0;
+            int blackRow = 0;
+            int blackCol = 0;
+            int moves = 0;
+
+            for (int i = 0; i < 8; i++)
+            {
+                char[] rowInput = Console.ReadLine().ToCharArray();
+
+                for (int j = 0; j < 8; j++)
+                {
+                    board[i, j] = rowInput[j].ToString();
+
+                    if (board[i, j] == "w")
+                    {
+                        whiteRow = i;
+                        whiteCol = j;
+                    }
+                    if (board[i, j] == "b")
+                    {
+                        blackRow = i;
+                        blackCol = j;
+                    }
+                }
+            }
+
+            var chess = ChessBoard();
+
+            while (true)
+            {
+                if (moves == 0)
+                {
+                    board[whiteRow, whiteCol] = "-";
+
+                    if (InRange(whiteRow - 1))
+                    {
+                        whiteRow--;
+                        if (WhiteToWin(board, ref whiteRow, ref whiteCol))
+                        {
+                            Console.WriteLine($"Game over! White capture on {chess[whiteRow, whiteCol]}.");
+                            Environment.Exit(0);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Game over! White pawn is promoted to a queen at {chess[whiteRow, whiteCol]}.");
+                        Environment.Exit(0);
+                    }
+                    moves++;
+                    board[whiteRow, whiteCol] = "w";
+                }
+                else
+                {
+                    if (moves % 2 == 0)
+                    {
+                        board[whiteRow, whiteCol] = "-";
+
+                        if (InRange(whiteRow - 1))
+                        {
+                            whiteRow--;
+
+                            if (WhiteToWin(board, ref whiteRow, ref whiteCol))
+                            {
+                                Console.WriteLine($"Game over! White capture on {chess[whiteRow, whiteCol]}.");
+                                Environment.Exit(0);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Game over! White pawn is promoted to a queen at {chess[whiteRow, whiteCol]}.");
+                            Environment.Exit(0);
+                        }
+                        moves++;
+                        board[whiteRow, whiteCol] = "w";
+                    }
+                    else
+                    {
+                        board[blackRow, blackCol] = "-";
+
+                        if (InRange(blackRow + 1))
+                        {
+                            blackRow++;
+
+                            if (BlackToWin(board, ref blackRow, ref blackCol))
+                            {
+                                Console.WriteLine($"Game over! Black capture on {chess[blackRow, blackCol]}.");
+                                Environment.Exit(0);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Game over! Black pawn is promoted to a queen at {chess[blackRow, blackCol]}.");
+                            Environment.Exit(0);
+                        }
+                        moves++;
+                        board[blackRow, blackCol] = "b";
+                    }
+                }
+            }
+        }
+
+
+        static bool WhiteToWin(string[,] board, ref int row, ref int col)
+        {
+            if (col - 1 >= 0)
+            {
+                if (board[row, col - 1] == "b")
+                {
+                    col--;
+                    return true;
+                }
+            }
+            if (col + 1 < 8)
+            {
+                if (board[row, col + 1] == "b")
+                {
+                    col++;
+                    return true;
+                }
+            }
+            return false;
+        }
+        static bool BlackToWin(string[,] board, ref int row, ref int col)
+        {
+            if (col - 1 >= 0)
+            {
+                if (board[row, col - 1] == "w")
+                {
+                    col--;
+                    return true;
+                }
+            }
+            if (col + 1 < 8)
+            {
+                if (board[row, col + 1] == "w")
+                {
+                    col++;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        static bool InRange(int row)
+        {
+            return row >= 0 && row < 8;
+        }
+
+        public static string[,] ChessBoard()
+        {
+            string[,] chess = new string[8, 8];
+            int len = 8;
+
+            for (int i = 0; i < 8; i++)
+            {
+                int n = 97;
+
+                for (int j = 0; j < 8; j++)
+                {
+                    char ch = (char)n;
+                    chess[i, j] = ch.ToString() + len.ToString();
+                    n++;
+                }
+                len--;
+            }
+            return chess;
+        }
+    }
+}

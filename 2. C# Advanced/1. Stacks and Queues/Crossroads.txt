@@ -1,0 +1,60 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace Crossroads
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int greenLight = int.Parse(Console.ReadLine());
+            int freeWindow = int.Parse(Console.ReadLine());
+            Queue<string> cars = new Queue<string>();
+            int passedCars = 0;
+
+            string input = Console.ReadLine();
+
+            while (input != "END")
+            {
+                if (input == "green")
+                {
+                    int currentGreenLight = greenLight;
+
+                    while (cars.Count > 0 && currentGreenLight > 0)
+                    {
+                        if (currentGreenLight - cars.Peek().Length >= 0)
+                        {
+                            currentGreenLight -= cars.Dequeue().Length;
+                            passedCars++;
+                        }
+                        else
+                        {
+                            if (freeWindow >= cars.Peek().Length - currentGreenLight)
+                            {
+                                cars.Dequeue();
+                                passedCars++;
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("A crash happened!");
+                                Console.WriteLine($"{cars.Peek()} was hit at {cars.Peek().ElementAt(freeWindow + currentGreenLight)}.");
+                                return;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    cars.Enqueue(input);
+                }
+                input = Console.ReadLine();
+            }
+            Console.WriteLine("Everyone is safe.");
+            Console.WriteLine($"{passedCars} total cars passed the crossroads.");
+        }
+    }
+}

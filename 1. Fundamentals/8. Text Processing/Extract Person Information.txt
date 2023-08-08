@@ -1,0 +1,34 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace ExtractPersonInformation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                string name = string.Empty;
+                string age = string.Empty;
+
+                for (int j = input.IndexOf('@') + 1; j < input.IndexOf('|'); j++)
+                {
+                    name += input[j];
+                }
+
+                for (int k = input.IndexOf('#') + 1; k < input.IndexOf('*'); k++)
+                {
+                    age += input[k];
+                }
+
+                Console.WriteLine($"{name} is {age} years old.");
+            }
+        }
+    }
+}

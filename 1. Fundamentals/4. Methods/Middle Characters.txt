@@ -1,0 +1,37 @@
+using System;
+using System.Linq;
+
+namespace MiddleCharacters
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            MiddleElement(input);
+        }
+
+        static void MiddleElement(string input)
+        {
+            char[] arr = new char[input.Length];
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = input[i];
+            }
+
+            int lenght = arr.Length;
+
+            if (lenght % 2 != 0)
+            {
+                decimal middle = (decimal)lenght / 2;
+                Console.WriteLine(arr[(int)middle]);
+            }
+            else
+            {
+                decimal middle = (decimal)lenght / 2;
+                Console.WriteLine($"{arr[(int)middle - 1]}{arr[(int)middle]}");
+            }
+        }
+    }
+}

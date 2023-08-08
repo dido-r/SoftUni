@@ -1,0 +1,40 @@
+using System;
+using System.Linq;
+
+namespace PalindromeIntegers
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            PalindromeCheck(input);
+        }
+
+        static void PalindromeCheck(string input)
+        {
+            while (input != "END")
+            {
+                char[] reversed = new char[input.Length];
+
+                for (int i = 0; i < reversed.Length; i++)
+                {
+                    reversed[i] += input[reversed.Length - 1 - i];
+                }
+
+                string reversedInput = new string(reversed);
+
+                if (reversedInput == input)
+                {
+                    Console.WriteLine("true");
+                }
+                else
+                {
+                    Console.WriteLine("false");
+                }
+                
+                input = Console.ReadLine();
+            }
+        }
+    }
+}

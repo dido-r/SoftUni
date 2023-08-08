@@ -1,0 +1,65 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace Race
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] racers = Console.ReadLine().Split(", ");
+            string input = Console.ReadLine();
+            Dictionary<string, int> results = new Dictionary<string, int>();
+
+            while (input != "end of race")
+            {
+                string currentName = string.Empty;
+                int kilometers = 0;
+
+                MatchCollection name = Regex.Matches(input, @"[A-Za-z]");
+
+                foreach (Match item in name)
+                {
+                    currentName += item.Value;
+                }
+
+                MatchCollection distance = Regex.Matches(input, @"\d");
+
+                foreach (Match item in distance)
+                {
+                    kilometers += int.Parse(item.Value);
+                }
+
+                foreach (var item in racers)
+                {
+                    if (item == currentName)
+                    {
+                        if (!results.ContainsKey(currentName))
+                        {
+                            results.Add(currentName, kilometers);
+                        }
+                        else
+                        {
+                            results[currentName] += kilometers;
+                        }
+                    }
+                }
+
+                input = Console.ReadLine();
+            }
+
+            List<string> racersNames = new List<string>();
+
+            foreach (var item in results.OrderByDescending(x => x.Value))
+            {
+                racersNames.Add(item.Key);
+            }
+
+            Console.WriteLine($"1st place: {racersNames[0]}");
+            Console.WriteLine($"2nd place: {racersNames[1]}");
+            Console.WriteLine($"3rd place: {racersNames[2]}");
+        }
+    }
+}

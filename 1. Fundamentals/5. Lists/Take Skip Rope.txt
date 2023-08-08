@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace TakeSkipRope
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            List<char> list = new List<char>(input);
+            string numbers = "";
+            List<long> intNum = new List<long>();
+            List<long> takeList = new List<long>();
+            List<long> skipList = new List<long>();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (char.IsDigit(list[i]))
+                {
+                    numbers += list[i];
+                    list.Remove(list[i]);
+                    i--;
+                }
+            }
+
+            long nums = long.Parse(numbers);
+            int lenght = numbers.Length;
+
+            while (lenght > 0)
+            {
+                long currnum = nums % 10;
+                intNum.Insert(0, currnum);
+                nums /= 10;
+                lenght--;
+            }
+            for (int i = 0; i < intNum.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    takeList.Add(intNum[i]);
+                }
+                else
+                {
+                    skipList.Add(intNum[i]);
+                }
+            }
+
+            string message = "";
+            long lastIndex = 0;
+
+            for (int i = 0; i < takeList.Count; i++)
+            {
+                for (int j = (int)lastIndex; j < lastIndex + takeList[i]; j++)
+                {
+                    message += list[j];
+
+                    if (j == list.Count - 1)
+                    {
+                        break;
+                    }
+                }
+                lastIndex += takeList[i] + skipList[i];
+            }
+            Console.WriteLine(message);
+        }
+    }
+}

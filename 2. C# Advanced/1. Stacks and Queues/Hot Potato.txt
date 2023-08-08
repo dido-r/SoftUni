@@ -1,0 +1,34 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace HotPotato
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Queue<string> kids = new Queue<string>(Console.ReadLine().Split());
+            int toss = int.Parse(Console.ReadLine());
+            int currentToss = 1;
+
+            while (kids.Count > 1)
+            {
+                if (currentToss != toss)
+                {
+                    var kid = kids.Dequeue();
+                    kids.Enqueue(kid);
+                    currentToss++;
+                }
+                else
+                {
+                    Console.WriteLine($"Removed {kids.Dequeue()}");
+                    currentToss = 1;
+                }
+            }
+            Console.WriteLine($"Last is {kids.Dequeue()}");
+        }
+    }
+}

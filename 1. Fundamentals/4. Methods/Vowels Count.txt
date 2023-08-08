@@ -1,0 +1,35 @@
+using System;
+using System.Linq;
+
+namespace VowelsCount
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            vowelsCount(input);
+        }
+
+        static void vowelsCount(string input)
+        {
+            char[] arr = new char[input.Length]; ;
+            int vowelCount = 0;
+
+            for (int j = 0; j < arr.Length; j++)
+            {
+                arr[j] = input[j];
+            }
+            
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == 'a' || arr[i] == 'e' || arr[i] == 'i' || arr[i] == 'o' || arr[i] == 'u' ||
+                    arr[i] == 'A' || arr[i] == 'E' || arr[i] == 'I' || arr[i] == 'O' || arr[i] == 'U')
+                {
+                    vowelCount++;
+                }
+            }
+            Console.WriteLine(vowelCount);
+        }
+    }
+}

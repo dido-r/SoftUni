@@ -1,0 +1,38 @@
+using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace WarmWinter
+{
+    class StartUp
+    {
+        static void Main(string[] args)
+        {
+            Stack<int> hats = new Stack<int>(Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse));
+            Queue<int> scarfs = new Queue<int>(Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse));
+            List<int> set = new List<int>();
+
+            while (hats.Count != 0 && scarfs.Count != 0)
+            {
+                if (hats.Peek() > scarfs.Peek())
+                {
+                    set.Add(hats.Pop() + scarfs.Dequeue());
+                }
+                else if (hats.Peek() < scarfs.Peek())
+                {
+                    hats.Pop();
+                }
+                else
+                {
+                    scarfs.Dequeue();
+                    int currentHat = hats.Pop() + 1;
+                    hats.Push(currentHat);
+                }
+            }
+
+            Console.WriteLine($"The most expensive set is: {set.Max()}");
+            Console.WriteLine(string.Join(" ", set));
+        }
+    }
+}

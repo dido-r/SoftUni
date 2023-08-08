@@ -1,0 +1,31 @@
+using System;
+using System.Linq;
+
+namespace Login
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string username = Console.ReadLine();
+            string password = new string(username.Reverse().ToArray());
+            string input = Console.ReadLine();
+            int count = 1;
+
+            while (input != password)
+            {
+                Console.WriteLine("Incorrect password. Try again.");
+                input = Console.ReadLine();
+                count++;
+                
+                if (count == 4 && input != password)
+                {
+                    Console.WriteLine($"User {username} blocked!");
+                    return;
+                }
+            }
+
+            Console.WriteLine($"User {username} logged in.");
+        }
+    }
+}

@@ -1,0 +1,33 @@
+using System;
+
+namespace SpiceMustFlow
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int startingYield = int.Parse(Console.ReadLine());
+
+            int countDays = 0;
+            int totalAmount = 0;
+
+            if (startingYield >= 100)
+            {
+                while (startingYield >= 100)
+                {
+                    totalAmount += startingYield - 26;
+                    countDays++;
+                    startingYield -= 10;
+                }
+                Console.WriteLine(countDays);
+                Console.WriteLine(totalAmount - 26);
+            }
+            else
+            {
+                Console.WriteLine(countDays);
+                Console.WriteLine(0);
+            }
+
+        }
+    }
+}

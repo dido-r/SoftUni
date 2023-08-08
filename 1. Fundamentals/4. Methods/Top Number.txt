@@ -1,0 +1,46 @@
+using System;
+using System.Linq;
+
+namespace TopNumber
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int input = int.Parse(Console.ReadLine());
+            TopIntegerCheck(input);
+        }
+
+        static void TopIntegerCheck(int input)
+        {
+            for (int i = 1; i <= input; i++)
+            {
+                bool isDivisible = false;
+                bool isOddDigit = false;
+                int tempNum = i;
+                int digitSum = 0;
+
+                while (tempNum > 0)
+                {
+                    int currNum = tempNum % 10;
+                    if (currNum % 2 != 0)
+                    {
+                        isOddDigit = true;
+                    }
+                    digitSum += currNum;
+                    tempNum /= 10;
+                }
+
+                if (digitSum % 8 == 0)
+                {
+                    isDivisible = true;
+                }
+
+                if (isDivisible && isOddDigit)
+                {
+                    Console.WriteLine(i);
+                }
+            }
+        }
+    }
+}

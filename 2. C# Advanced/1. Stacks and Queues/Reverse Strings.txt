@@ -1,0 +1,21 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace ReverseStrings
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Stack<char> stack = new Stack<char>(Console.ReadLine());
+
+            while (stack.Count > 0)
+            {
+                Console.Write(stack.Pop());
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace SoftUniParty
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            HashSet<string> regular = new HashSet<string>();
+            HashSet<string> VIP = new HashSet<string>();
+            HashSet<string> guestsWhoDidntCame = new HashSet<string>();
+
+            while (input != "PARTY")
+            {
+                if (input.Length != 8)
+                {
+                    guestsWhoDidntCame.Add(input);
+                }
+                else
+                {
+                    if (char.IsDigit(input[0]))
+                    {
+                        VIP.Add(input);
+                    }
+                    else
+                    {
+                        regular.Add(input);
+                    }
+                }
+                input = Console.ReadLine();
+            }
+
+            string reservation = Console.ReadLine();
+
+            while (reservation != "END")
+            {
+                regular.Remove(reservation);
+                VIP.Remove(reservation);
+                reservation = Console.ReadLine();
+            }
+
+            guestsWhoDidntCame.UnionWith(regular);
+            Console.WriteLine(VIP.Count() + guestsWhoDidntCame.Count());
+
+            if (VIP.Count() > 0)
+            {
+                Console.WriteLine(string.Join("\n", VIP));
+            }
+            if (guestsWhoDidntCame.Count() > 0)
+            {
+                Console.WriteLine(string.Join("\n", guestsWhoDidntCame));
+            }
+        }
+    }
+}

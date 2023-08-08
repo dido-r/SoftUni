@@ -1,0 +1,138 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Armory
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            char[,] matrix = new char[n, n];
+            int officerRow = 0;
+            int officerCol = 0;
+            int coins = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                char[] rowInput = Console.ReadLine().ToCharArray();
+
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[i, j] = rowInput[j];
+
+                    if (matrix[i, j] == 'A')
+                    {
+                        officerRow = i;
+                        officerCol = j;
+                    }
+                }
+            }
+
+
+            while (coins < 65)
+            {
+                string command = Console.ReadLine();
+                matrix[officerRow, officerCol] = '-';
+
+                if (command == "up")
+                {
+                    if (InRange(matrix, officerRow - 1, officerCol))
+                    {
+                        officerRow--;
+                    }
+                    else
+                    {
+                        OutOfArmory(matrix, coins);
+                    }
+                }
+                else if (command == "down")
+                {
+                    if (InRange(matrix, officerRow + 1, officerCol))
+                    {
+                        officerRow++;
+                    }
+                    else
+                    {
+                        OutOfArmory(matrix, coins);
+                    }
+                }
+                else if (command == "left")
+                {
+                    if (InRange(matrix, officerRow, officerCol - 1))
+                    {
+                        officerCol--;
+                    }
+                    else
+                    {
+                        OutOfArmory(matrix, coins);
+                    }
+                }
+                else if (command == "right")
+                {
+                    if (InRange(matrix, officerRow, officerCol + 1))
+                    {
+                        officerCol++;
+                    }
+                    else
+                    {
+                        OutOfArmory(matrix, coins);
+                    }
+                }
+
+                if (matrix[officerRow, officerCol] != 'M' && matrix[officerRow, officerCol] != '-')
+                {
+                    coins += int.Parse(matrix[officerRow, officerCol].ToString());
+                }
+                if (matrix[officerRow, officerCol] == 'M')
+                {
+                    matrix[officerRow, officerCol] = '-';
+                    CheckForMirror(matrix, ref officerRow, ref officerCol);
+                }
+                matrix[officerRow, officerCol] = 'A';
+            }
+            Console.WriteLine("Very nice swords, I will come back for more!");
+            Console.WriteLine($"The king paid {coins} gold coins.");
+            Print(matrix);
+        }
+
+        static bool InRange(char[,] matrix, int officerRow, int officerCol)
+        {
+            return officerRow >= 0 && officerRow < matrix.GetLength(0) && officerCol >= 0 && officerCol < matrix.GetLength(1);
+        }
+        static void OutOfArmory(char[,] matrix, int coins)
+        {
+            Console.WriteLine("I do not need more swords!");
+            Console.WriteLine($"The king paid {coins} gold coins.");
+            Print(matrix);
+            Environment.Exit(0);
+        }
+        static void CheckForMirror(char[,] matrix, ref int officerRow, ref int officerCol)
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i, j] == 'M')
+                    {
+                        officerRow = i;
+                        officerCol = j;
+                    }
+                }
+            }
+        }
+
+        static void Print(char[,] matrix)
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    Console.Write(matrix[i, j]);
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}

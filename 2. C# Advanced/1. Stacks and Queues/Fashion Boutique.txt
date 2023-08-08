@@ -1,0 +1,33 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace FashionBoutique
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Stack<int> clothes = new Stack<int>(Console.ReadLine().Split().Select(int.Parse).ToArray());
+            int capacity = int.Parse(Console.ReadLine());
+            int currentCapacity = 0;
+            int racks = 1;
+
+            while (clothes.Count > 0)
+            {
+                if (currentCapacity + clothes.Peek() <= capacity)
+                {
+                    currentCapacity += clothes.Pop();
+                }
+                else
+                {
+                    racks++;
+                    currentCapacity = 0;
+                }
+            }
+            Console.WriteLine(racks);
+        }
+    }
+}

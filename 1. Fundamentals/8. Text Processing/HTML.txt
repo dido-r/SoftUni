@@ -1,0 +1,31 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace HTML
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string title = Console.ReadLine();
+            Console.WriteLine($"<h1>\n{title}\n</h1>");
+
+            string content = Console.ReadLine();
+            Console.WriteLine($"<article>\n{content}\n</article>");
+
+            while (true)
+            {
+                string comments = Console.ReadLine();
+
+                if (comments == "end of comments")
+                {
+                    break;
+                }
+
+                Console.WriteLine($"<div>\n{comments}\n</div>");
+            }
+        }
+    }
+}

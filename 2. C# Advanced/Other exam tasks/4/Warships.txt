@@ -1,0 +1,132 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Warships
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            string[] coordinates = Console.ReadLine().Split(",", StringSplitOptions.RemoveEmptyEntries);
+            string[,] matrix = new string[n, n];
+            int countOne = 0;
+            int countTwo = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                string[] rowInput = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[i, j] = rowInput[j];
+                    if (matrix[i, j] == "<")
+                    {
+                        countOne++;
+                    }
+                    else if (matrix[i, j] == ">")
+                    {
+                        countTwo++;
+                    }
+                }
+            }
+
+            int countOfShips = countOne + countTwo;
+
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                string[] data = coordinates[i].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                int row = int.Parse(data[0]);
+                int col = int.Parse(data[1]);
+
+                if (IsInRange(matrix, row, col))
+                {
+                    if (matrix[row, col] == "<")
+                    {
+                        matrix[row, col] = "X";
+                        countOne--;
+                    }
+                    else if (matrix[row, col] == ">")
+                    {
+                        matrix[row, col] = "X";
+                        countTwo--;
+                    }
+                    else if (matrix[row, col] == "#")
+                    {
+                        matrix[row, col] = "X";
+
+                        if (IsInRange(matrix, row - 1, col - 1))
+                        {
+                            CheckForShips(matrix, row - 1, col - 1, ref countOne, ref countTwo);
+                        }
+                        if (IsInRange(matrix, row - 1, col))
+                        {
+                            CheckForShips(matrix, row - 1, col, ref countOne, ref countTwo);
+                        }
+                        if (IsInRange(matrix, row - 1, col + 1))
+                        {
+                            CheckForShips(matrix, row - 1, col + 1, ref countOne, ref countTwo);
+                        }
+                        if (IsInRange(matrix, row, col - 1))
+                        {
+                            CheckForShips(matrix, row, col - 1, ref countOne, ref countTwo);
+                        }
+                        if (IsInRange(matrix, row, col + 1))
+                        {
+                            CheckForShips(matrix, row, col + 1, ref countOne, ref countTwo);
+                        }
+                        if (IsInRange(matrix, row + 1, col - 1))
+                        {
+                            CheckForShips(matrix, row + 1, col - 1, ref countOne, ref countTwo);
+                        }
+                        if (IsInRange(matrix, row + 1, col))
+                        {
+                            CheckForShips(matrix, row + 1, col, ref countOne, ref countTwo);
+                        }
+                        if (IsInRange(matrix, row + 1, col + 1))
+                        {
+                            CheckForShips(matrix, row + 1, col + 1, ref countOne, ref countTwo);
+                        }
+                    }
+                }
+                if (countOne == 0 || countTwo == 0)
+                {
+                    break;
+                }
+            }
+
+            if (countOne == 0)
+            {
+                Console.WriteLine($"Player Two has won the game! {countOfShips - (countOne + countTwo)} ships have been sunk in the battle.");
+            }
+            else if (countTwo == 0)
+            {
+                Console.WriteLine($"Player One has won the game! {countOfShips - (countOne + countTwo)} ships have been sunk in the battle.");
+            }
+            else
+            {
+                Console.WriteLine($"It's a draw! Player One has {countOne} ships left. Player Two has {countTwo} ships left.");
+            }
+        }
+
+        static bool IsInRange(string[,] matrix, int row, int col)
+        {
+            return row >= 0 && row < matrix.GetLength(0) && col >= 0 && col < matrix.GetLength(1);
+        }
+
+        public static void CheckForShips(string[,] matrix, int row, int col, ref int countOne, ref int countTwo)
+        {
+            if (matrix[row, col] == "<")
+            {
+                matrix[row, col] = "X";
+                countOne--;
+            }
+            else if (matrix[row, col] == ">")
+            {
+                matrix[row, col] = "X";
+                countTwo--;
+            }
+        }
+    }
+}

@@ -1,0 +1,66 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace SoftUniParking
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            Dictionary<string, string> registry = new Dictionary<string, string>();
+
+            for (int i = 0; i < n; i++)
+            {
+                string[] input = Console.ReadLine().Split();
+                string command = input[0];
+
+                if (command == "register")
+                {
+                    RegisterUser(input, registry);
+                }
+                else if (command == "unregister")
+                {
+                    UnregisterUser(input, registry);
+                }
+            }
+
+            foreach (var item in registry)
+            {
+                Console.WriteLine($"{item.Key} => {item.Value}");
+            }
+        }
+
+        static void RegisterUser(string[] input, Dictionary<string, string> registry)
+        {
+            string user = input[1];
+            string licensePlateNumber = input[2];
+
+            if (!registry.ContainsKey(user))
+            {
+                registry.Add(user, licensePlateNumber);
+                Console.WriteLine($"{user} registered {licensePlateNumber} successfully");
+            }
+            else
+            {
+                Console.WriteLine($"ERROR: already registered with plate number {licensePlateNumber}");
+            }
+        }
+
+        static void UnregisterUser(string[] input, Dictionary<string, string> registry)
+        {
+            string user = input[1];
+
+            if (!registry.ContainsKey(user))
+            {
+                Console.WriteLine($"ERROR: user {user} not found");
+            }
+            else
+            {
+                registry.Remove(user);
+                Console.WriteLine($"{user} unregistered successfully");
+            }
+        }
+    }
+}

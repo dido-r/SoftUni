@@ -1,0 +1,34 @@
+using System;
+
+namespace WaterOverflow
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            int lines = int.Parse(Console.ReadLine());
+            int sum = 0;
+
+            for (int i = 0; i < lines; i++)
+            {
+                int water = int.Parse(Console.ReadLine());
+                if (water > 255)
+                {
+                    Console.WriteLine("Insufficient capacity!");
+                }
+                else
+                {
+                    sum += water;
+                   
+                    if (sum > 255)
+                    {
+                        Console.WriteLine("Insufficient capacity!");
+                        sum -= water;
+                    }
+                }
+            }
+            Console.WriteLine(sum);
+        }
+    }
+}

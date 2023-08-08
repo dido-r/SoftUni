@@ -1,0 +1,30 @@
+h1 {
+    color: white;
+    background-color: rgb(85, 85, 232);
+    text-align: center;
+    padding: 50px;
+    font-family: Verdana, sans-serif;
+}
+
+#center {
+
+    margin: 0;
+    position: absolute;
+    margin-top: 20px;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#notification {
+
+    position: absolute;
+    float: right;
+    top: 8em;
+    right: 0;
+    display: none;
+    color: white;
+    background-color: green;
+    padding: 5px;
+
+}

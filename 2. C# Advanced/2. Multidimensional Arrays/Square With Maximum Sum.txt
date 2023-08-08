@@ -1,0 +1,59 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace SquareWithMaximumSum
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] size = Console.ReadLine().Split(", ").Select(int.Parse).ToArray();
+            int rows = size[0];
+            int cols = size[1];
+            int[,] matrix = new int[rows, cols];
+
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                int[] rowsInput = Console.ReadLine().Split(", ").Select(int.Parse).ToArray();
+
+                for (int col = 0; col < matrix.GetLength(1); col++)
+                {
+                    matrix[row, col] = rowsInput[col];
+                }
+            }
+            int maxSum = int.MinValue;
+            int bestIndex1 = 0;
+            int bestIndex2 = 0;
+
+            for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+            {
+                int sum = 0;
+
+                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+                {
+                    sum = matrix[i, j] + matrix[i + 1, j] + matrix[i, j + 1] + matrix[i + 1, j + 1];
+
+                    if (sum > maxSum)
+                    {
+                        maxSum = sum;
+                        bestIndex1 = i;
+                        bestIndex2 = j;
+                    }
+                }
+            }
+
+            for (int i = bestIndex1; i < bestIndex1 + 2; i++)
+            {
+                for (int j = bestIndex2; j < bestIndex2 + 2; j++)
+                {
+                    Console.Write(matrix[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(maxSum);
+        }
+    }
+}

@@ -1,0 +1,46 @@
+using System;
+
+namespace ZigZagArrays
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+
+            string[] arr1 = new string[n];
+            string[] arr2 = new string[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                string[] parts = input.Split();
+                string num1 = parts[0];
+                string num2 = parts[1];
+
+                if (i % 2 == 0)
+                {
+                    arr1[i] = num1;
+                    arr2[i] = num2;
+                }
+                else
+                {
+                    arr1[i] = num2;
+                    arr2[i] = num1;
+                }
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                Console.Write($"{arr1[i] + " "}");
+            }
+
+            Console.WriteLine();
+
+            for (int i = 0; i < n; i++)
+            {
+                Console.Write($"{arr2[i] + " "}");
+            }
+        }
+    }
+}

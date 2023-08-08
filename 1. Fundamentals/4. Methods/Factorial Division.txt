@@ -1,0 +1,36 @@
+using System;
+using System.Linq;
+
+namespace FactorialDivision
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int a = int.Parse(Console.ReadLine());
+            int b = int.Parse(Console.ReadLine());
+            CalculateFactorialSum(a, b);
+        }
+
+        static void CalculateFactorialSum(int a, int b)
+        {
+            long factorialA = 1;
+            long factorialB = 1;
+
+            if (a > 0 && b > 0)
+            {
+                for (int i = 1; i <= a; i++)
+                {
+                    factorialA *= i;
+                }
+
+                for (int j = 1; j <= b; j++)
+                {
+                    factorialB *= j;
+                }
+            }
+
+            Console.WriteLine($"{1.00 * factorialA / factorialB:f2}");
+        }
+    }
+}

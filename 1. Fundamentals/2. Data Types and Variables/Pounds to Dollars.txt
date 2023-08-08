@@ -1,0 +1,17 @@
+using System;
+
+namespace PoundsToDollars
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            decimal pound = decimal.Parse(Console.ReadLine());
+            
+            double exchangeRate = 1.31;
+            decimal dollar = pound * (decimal)exchangeRate;
+
+            Console.WriteLine($"{dollar:f3}");
+        }
+    }
+}

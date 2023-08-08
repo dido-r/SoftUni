@@ -1,0 +1,38 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ParkingLot
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            HashSet<string> cars = new HashSet<string>();
+
+            while (input != "END")
+            {
+                string[] data = input.Split(", ");
+
+                if (data[0] == "IN")
+                {
+                    cars.Add(data[1]);
+                }
+                else if (data[0] == "OUT")
+                {
+                    cars.Remove(data[1]);
+                }
+                input = Console.ReadLine();
+            }
+            if (cars.Count > 0)
+            {
+                Console.WriteLine(string.Join("\n", cars));
+            }
+            else
+            {
+                Console.WriteLine("Parking Lot is Empty");
+            }
+        }
+    }
+}

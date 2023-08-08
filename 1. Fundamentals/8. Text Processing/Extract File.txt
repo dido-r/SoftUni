@@ -1,0 +1,18 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace ExtractFile
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] path = Console.ReadLine().Split(@"\");
+            string[] fileData = path[path.Length - 1].Split(".");
+            Console.WriteLine($"File name: {fileData[0]}");
+            Console.WriteLine($"File extension: {fileData[1]}");
+        }
+    }
+}

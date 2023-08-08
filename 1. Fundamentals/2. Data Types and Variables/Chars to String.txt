@@ -1,0 +1,17 @@
+using System;
+using System.Numerics;
+
+namespace CharsToString
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            char s1 = char.Parse(Console.ReadLine());
+            char s2 = char.Parse(Console.ReadLine());
+            char s3 = char.Parse(Console.ReadLine());
+
+            Console.WriteLine($"{s1}{s2}{s3}");
+        }
+    }
+}

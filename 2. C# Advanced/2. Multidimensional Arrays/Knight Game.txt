@@ -1,0 +1,99 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace KnightGame
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int size = int.Parse(Console.ReadLine());
+            char[,] board = new char[size, size];
+
+            for (int i = 0; i < size; i++)
+            {
+                string input = Console.ReadLine();
+
+                for (int j = 0; j < size; j++)
+                {
+                    board[i, j] = input[j];
+                }
+            }
+            int bestRow = 0;
+            int bestCol = 0;
+            bool isDone = false;
+            int removedKnights = 0;
+
+            while (!isDone)
+            {
+                int besAttack = 0;
+
+                for (int i = 0; i < size; i++)
+                {
+                    for (int j = 0; j < size; j++)
+                    {
+                        int attack = 0;
+
+                        if (board[i, j] == 'K')
+                        {
+                            if (InRange(board, i - 2, j - 1) && board[i - 2, j - 1] == 'K')
+                            {
+                                attack++;
+                            }
+                            if (InRange(board, i - 2, j + 1) && board[i - 2, j + 1] == 'K')
+                            {
+                                attack++;
+                            }
+                            if (InRange(board, i - 1, j - 2) && board[i - 1, j - 2] == 'K')
+                            {
+                                attack++;
+                            }
+                            if (InRange(board, i - 1, j + 2) && board[i - 1, j + 2] == 'K')
+                            {
+                                attack++;
+                            }
+                            if (InRange(board, i + 1, j - 2) && board[i + 1, j - 2] == 'K')
+                            {
+                                attack++;
+                            }
+                            if (InRange(board, i + 1, j + 2) && board[i + 1, j + 2] == 'K')
+                            {
+                                attack++;
+                            }
+                            if (InRange(board, i + 2, j - 1) && board[i + 2, j - 1] == 'K')
+                            {
+                                attack++;
+                            }
+                            if (InRange(board, i + 2, j + 1) && board[i + 2, j + 1] == 'K')
+                            {
+                                attack++;
+                            }
+                            if (attack > besAttack)
+                            {
+                                besAttack = attack;
+                                bestRow = i;
+                                bestCol = j;
+                            }
+                        }
+                    }
+                }
+                if (besAttack == 0)
+                {
+                    isDone = true;
+                }
+                if (besAttack != 0)
+                {
+                    board[bestRow, bestCol] = '0';
+                    removedKnights++;
+                }
+            }
+            Console.WriteLine(removedKnights);
+        }
+
+        private static bool InRange(char[,] board, int i, int j)
+        {
+            return i >= 0 && i < board.GetLength(0) && j >= 0 && j < board.GetLength(1);
+        }
+    }
+}

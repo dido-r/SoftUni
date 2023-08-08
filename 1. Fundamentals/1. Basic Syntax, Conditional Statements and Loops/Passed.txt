@@ -1,0 +1,4 @@
+NuGet Microsoft.AspNet.WebApi.Cors + some code in Program CS + attr on the controller
+
+
+Axios for connection between front and back end

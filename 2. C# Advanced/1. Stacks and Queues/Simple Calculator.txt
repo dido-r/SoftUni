@@ -1,0 +1,33 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace Program
+{
+    class SimpleCalculator
+    {
+        static void Main(string[] args)
+        {
+            Stack<string> stack = new Stack<string>(Console.ReadLine().Split().Reverse());
+
+            while (stack.Count > 1)
+            {
+                int num1 = int.Parse(stack.Pop());
+
+                if (stack.Pop() == "+")
+                {
+                    int num2 = int.Parse(stack.Pop());
+                    stack.Push((num1 + num2).ToString());
+                }
+                else
+                {
+                    int num2 = int.Parse(stack.Pop());
+                    stack.Push((num1 - num2).ToString());
+                }
+            }
+            Console.WriteLine(stack.Pop());
+        }
+    }
+}

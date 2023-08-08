@@ -1,0 +1,17 @@
+using System;
+using System.Linq;
+
+namespace ReverseString
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string word = Console.ReadLine();
+
+            string wordReverse = new string(word.Reverse().ToArray());
+
+            Console.WriteLine(wordReverse);
+        }
+    }
+}

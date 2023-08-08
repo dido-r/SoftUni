@@ -1,0 +1,61 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace StarEnigma
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+
+            List<string> attacked = new List<string>();
+            List<string> destroyed = new List<string>();
+
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+
+                MatchCollection matches = Regex.Matches(input, @"[SsTtAaRr]");
+
+                int key = matches.Count;
+                string decrypted = string.Empty;
+
+                for (int j = 0; j < input.Length; j++)
+                {
+                    decrypted += (char)((int)input[j] - key);
+                }
+
+                Match match = Regex.Match(decrypted, @"@(?<planet>[A-Za-z]+)[^@\-!:>]*:(?<population>\d+)[^@\-!:>]*!(?<attackType>[A,D])![^@\-!:>]*->(?<soldiers>\d+)", RegexOptions.IgnoreCase);
+
+                if (match.Success)
+                {
+                    if (match.Groups["attackType"].Value == "D")
+                    {
+                        destroyed.Add(match.Groups["planet"].Value);
+                    }
+                    else if (match.Groups["attackType"].Value == "A")
+                    {
+                        attacked.Add(match.Groups["planet"].Value);
+                    }
+                }
+            }
+
+            Console.WriteLine($"Attacked planets: {attacked.Count}");
+
+            foreach (var item in attacked.OrderBy(name => name))
+            {
+                Console.WriteLine($"-> {item}");
+            }
+
+            Console.WriteLine($"Destroyed planets: {destroyed.Count}");
+
+            foreach (var item in destroyed.OrderBy(name => name))
+            {
+                Console.WriteLine($"-> {item}");
+            }
+        }
+    }
+}

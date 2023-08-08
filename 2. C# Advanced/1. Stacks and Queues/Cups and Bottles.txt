@@ -1,0 +1,62 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace CupsAndBottles
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Queue<int> cups = new Queue<int>(Console.ReadLine().Split().Select(int.Parse).ToArray());
+            Stack<int> bottles = new Stack<int>(Console.ReadLine().Split().Select(int.Parse).ToArray());
+            int wastetWater = 0;
+            bool noBottels = false;
+
+            while (cups.Count > 0 && bottles.Count > 0)
+            {
+                if (bottles.Peek() > cups.Peek())
+                {
+                    wastetWater += bottles.Pop() - cups.Dequeue();
+                }
+                else
+                {
+                    var currentCup = cups.Peek();
+
+                    while (currentCup > 0)
+                    {
+                        if (bottles.Peek() > currentCup)
+                        {
+                            wastetWater += bottles.Peek() - currentCup;
+                        }
+
+                        currentCup -= bottles.Pop();
+                        
+                        if (bottles.Count == 0)
+                        {
+                            noBottels = true;
+                            break;
+                        }
+                    }
+
+                    if (!noBottels || currentCup <=0)
+                    {
+                        cups.Dequeue();
+                    }
+                }
+            }
+            if (cups.Count == 0)
+            {
+                Console.WriteLine($"Bottles: {string.Join(" ", bottles)}");
+                Console.WriteLine($"Wasted litters of water: {wastetWater}");
+            }
+            else
+            {
+                Console.WriteLine($"Cups: {string.Join(" ", cups)}");
+                Console.WriteLine($"Wasted litters of water: {wastetWater}");
+            }
+        }
+    }
+}

@@ -1,0 +1,152 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ListManipulationAdvanced
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> list = Console.ReadLine().Split().Select(int.Parse).ToList();
+            string listToString = string.Join(" ", list);
+
+            string input = Console.ReadLine();
+
+            while (input != "end")
+            {
+                string[] command = input.Split();
+
+                if (command[0] == "Contains")
+                {
+                    ContainNumber(list, command);
+                }
+                else if (command[0] == "PrintEven")
+                {
+                    PrintEvenNumbers(list);
+                }
+                else if (command[0] == "PrintOdd")
+                {
+                    PrintOddNumbers(list);
+                }
+                else if (command[0] == "GetSum")
+                {
+                    PrintSumOfNumbers(list);
+                }
+                else if (command[0] == "Filter")
+                {
+                    FilterNumbers(list, command);
+                }
+                else if (command[0] == "Add")
+                {
+                    list.Add(int.Parse(command[1]));
+                }
+                else if (command[0] == "Remove")
+                {
+                    list.Remove(int.Parse(command[1]));
+                }
+                else if (command[0] == "RemoveAt")
+                {
+                    list.RemoveAt(int.Parse(command[1]));
+                }
+                else if (command[0] == "Insert")
+                {
+                    list.Insert(int.Parse(command[2]), int.Parse(command[1]));
+                }
+                input = Console.ReadLine();
+            }
+
+            string listToStringAfter = string.Join(" ", list);
+
+            if (listToString != listToStringAfter)
+            {
+                Console.WriteLine(string.Join(" ", list));
+            }
+        }
+
+        static void ContainNumber(List<int> list, string[] command)
+        {
+            if (list.Contains(int.Parse(command[1])))
+            {
+                Console.WriteLine("Yes");
+            }
+            else
+            {
+                Console.WriteLine("No such number");
+            }
+        }
+
+        static void PrintEvenNumbers(List<int> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] % 2 == 0)
+                {
+                    Console.Write(list[i] + " ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        static void PrintOddNumbers(List<int> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] % 2 != 0)
+                {
+                    Console.Write(list[i] + " ");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        static void PrintSumOfNumbers(List<int> list)
+        {
+            Console.WriteLine(list.Sum());
+        }
+
+        static void FilterNumbers(List<int> list, string[] command)
+        {
+            switch (command[1])
+            {
+                case ">":
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i] > int.Parse(command[2]))
+                        {
+                            Console.Write(list[i] + " ");
+                        }
+                    }
+                    break;
+                case "<":
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i] < int.Parse(command[2]))
+                        {
+                            Console.Write(list[i] + " ");
+                        }
+                    }
+                    break;
+                case ">=":
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i] >= int.Parse(command[2]))
+                        {
+                            Console.Write(list[i] + " ");
+                        }
+                    }
+                    break;
+                case "<=":
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i] <= int.Parse(command[2]))
+                        {
+                            Console.Write(list[i] + " ");
+                        }
+                    }
+                    break;
+            }
+            Console.WriteLine();
+        }
+    }
+}

@@ -1,0 +1,42 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace LettersChangeNumbers
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] input = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            double sum = 0;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                double number = double.Parse(input[i].Substring(1, input[i].Length - 2));
+
+                if (Char.IsLower(input[i][0]))
+                {
+                    number *= ((int)input[i][0] - 96);
+                }
+                else
+                {
+                    number /= ((int)input[i][0] - 64);
+                }
+
+                if (Char.IsLower(input[i][input[i].Length - 1]))
+                {
+                    number += (int)input[i][input[i].Length - 1] - 96;
+                }
+                else
+                {
+                    number -= (int)input[i][input[i].Length - 1] - 64;
+                }
+
+                sum += number;
+            }
+            Console.WriteLine($"{sum:f2}");
+        }
+    }
+}

@@ -1,0 +1,38 @@
+using System;
+
+namespace MathOperations
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double a = double.Parse(Console.ReadLine());
+            char action = char.Parse(Console.ReadLine());
+            double b = double.Parse(Console.ReadLine());
+            SomeOperations(a, action, b);
+        }
+
+        static void SomeOperations(double a, char action, double b)
+        {
+            double result = 0;
+
+            if (action == '*')
+            {
+                result = a * b;
+            }
+            else if(action == '/')
+            {
+                result = a / b;
+            }
+            else if (action == '+')
+            {
+                result = a + b;
+            }
+            else if (action == '-')
+            {
+                result = a - b;
+            }
+            Console.WriteLine(result);
+        }
+    }
+}

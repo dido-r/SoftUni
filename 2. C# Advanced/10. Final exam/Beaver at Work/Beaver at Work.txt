@@ -1,0 +1,207 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace BeaverAtWork
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            char[,] pond = new char[n, n];
+            int beaverRow = 0;
+            int beaverCol = 0;
+            Stack<char> branches = new Stack<char>();
+            int allBranches = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                char[] rowInput = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(char.Parse).ToArray();
+
+                for (int j = 0; j < n; j++)
+                {
+                    pond[i, j] = rowInput[j];
+
+                    if (pond[i , j] == 'B')
+                    {
+                        beaverRow = i;
+                        beaverCol = j;
+                    }
+                    if (Char.IsLower(pond[i, j]))
+                    {
+                        allBranches++;
+                    }
+                }
+            }
+
+            string input = Console.ReadLine();
+
+            while (input != "end")
+            {
+                pond[beaverRow, beaverCol] = '-';
+
+                if (input == "up")
+                {
+                    if (InRange(pond, beaverRow - 1, beaverCol))
+                    {
+                        beaverRow--;
+                    }
+                    else
+                    {
+                        if (branches.Count != 0)
+                        {
+                            branches.Pop();
+                        }
+                    }
+                }
+                else if (input == "down")
+                {
+                    if (InRange(pond, beaverRow + 1, beaverCol))
+                    {
+                        beaverRow++;
+                    }
+                    else
+                    {
+                        if (branches.Count != 0)
+                        {
+                            branches.Pop();
+                        }
+                    }
+                }
+                else if (input == "right")
+                {
+                    if (InRange(pond, beaverRow, beaverCol + 1))
+                    {
+                        beaverCol++;
+                    }
+                    else
+                    {
+                        if (branches.Count != 0)
+                        {
+                            branches.Pop();
+                        }
+                    }
+                }
+                else if (input == "left")
+                {
+                    if (InRange(pond, beaverRow, beaverCol - 1))
+                    {
+                        beaverCol--;
+                    }
+                    else
+                    {
+                        if (branches.Count != 0)
+                        {
+                            branches.Pop();
+                        }
+                    }
+                }
+
+                if (Char.IsLower(pond[beaverRow, beaverCol]))
+                {
+                    branches.Push(pond[beaverRow, beaverCol]);
+                }
+                if (pond[beaverRow, beaverCol] == 'F')
+                {
+                    pond[beaverRow, beaverCol] = '-';
+
+                    if (input == "up")
+                    {
+                        if (InRange(pond, beaverRow - 1, beaverCol))
+                        {
+                            beaverRow = 0;
+                        }
+                        else
+                        {
+                            beaverRow = pond.GetLength(0) - 1;
+                        }
+                    }
+                    else if (input == "down")
+                    {
+                        if (InRange(pond, beaverRow + 1, beaverCol))
+                        {
+                            beaverRow = pond.GetLength(0) - 1;
+                        }
+                        else
+                        {
+                            beaverRow = 0;
+                        }
+                    }
+                    else if (input == "right")
+                    {
+                        if (InRange(pond, beaverRow, beaverCol + 1))
+                        {
+                            beaverCol = pond.GetLength(0) - 1;
+                        }
+                        else
+                        {
+                            beaverCol = 0;
+                        }
+                    }
+                    else if (input == "left")
+                    {
+                        if (InRange(pond, beaverRow, beaverCol - 1))
+                        {
+                            beaverCol = 0;
+                        }
+                        else
+                        {
+                            beaverCol = pond.GetLength(0) - 1;
+                        }
+                    }
+                }
+                pond[beaverRow, beaverCol] = 'B';
+
+                if (IsDone(pond) == 0)
+                {
+                    break;
+                }
+                input = Console.ReadLine();
+            }
+
+            if (IsDone(pond) == 0)
+            {
+                Console.WriteLine($"The Beaver successfully collect {branches.Count} wood branches: {string.Join(", ", branches.Reverse())}.");
+            }
+            else
+            {
+                Console.WriteLine($"The Beaver failed to collect every wood branch. There are {IsDone(pond)} branches left.");
+            }
+            Print(pond);
+        }
+
+        static bool InRange(char[,] pond, int row, int col)
+        {
+            return row >= 0 && row < pond.GetLength(0) && col >= 0 && col < pond.GetLength(1);
+        }
+        static int IsDone(char[,] pond)
+        {
+            int left = 0;
+
+            for (int i = 0; i < pond.GetLength(0); i++)
+            {
+                for (int j = 0; j < pond.GetLength(1); j++)
+                {
+                    if (Char.IsLower(pond[i, j]))
+                    {
+                        left++;
+                    }
+                }
+            }
+            return left;
+        }
+
+        static void Print(char[,] pond)
+        {
+            for (int i = 0; i < pond.GetLength(0); i++)
+            {
+                for (int j = 0; j < pond.GetLength(1); j++)
+                {
+                    Console.Write(pond[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}

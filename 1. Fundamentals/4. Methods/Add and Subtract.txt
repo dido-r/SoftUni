@@ -1,0 +1,26 @@
+using System;
+using System.Linq;
+
+namespace AddAndSubtract
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int a = int.Parse(Console.ReadLine());
+            int b = int.Parse(Console.ReadLine());
+            int c = int.Parse(Console.ReadLine());
+            Console.WriteLine(SubstractThird(a, b, c));
+        }
+
+        static int SumFirstTwo(int a, int b)
+        {
+            return a + b;
+        }
+
+        static int SubstractThird(int a, int b, int c)
+        {
+            return SumFirstTwo(a, b) - c;
+        }
+    }
+}

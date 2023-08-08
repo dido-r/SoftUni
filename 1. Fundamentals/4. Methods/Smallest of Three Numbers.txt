@@ -1,0 +1,22 @@
+using System;
+
+namespace SmallestOfThreeNumbers
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int a = int.Parse(Console.ReadLine());
+            int b = int.Parse(Console.ReadLine());
+            int c = int.Parse(Console.ReadLine());
+            Console.WriteLine(whichIsSmallest(a, b, c));
+        }
+
+        static int whichIsSmallest(int a, int b, int c)
+        {
+            int[] arr = { a, b, c };
+            Array.Sort(arr);
+            return arr[0];
+        }
+    }
+}

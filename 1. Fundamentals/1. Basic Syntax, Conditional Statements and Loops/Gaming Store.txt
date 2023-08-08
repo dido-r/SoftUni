@@ -1,0 +1,53 @@
+using System;
+
+
+namespace GamingStore
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double currentBalance = double.Parse(Console.ReadLine());
+
+            double price = 0;
+            double costs = 0;
+
+            string gameName = Console.ReadLine();
+
+            while (gameName != "Game Time")
+            {
+                switch (gameName)
+                {
+                    case "OutFall 4": price = 39.99; break;
+                    case "CS: OG": price = 15.99; break;
+                    case "Zplinter Zell": price = 19.99; break;
+                    case "Honored 2": price = 59.99; break;
+                    case "RoverWatch": price = 29.99; break;
+                    case "RoverWatch Origins Edition": price = 39.99; break;
+                    default: Console.WriteLine("Not Found"); break;
+                }
+
+                if (currentBalance - price < 0 && (gameName == "OutFall 4" || gameName == "CS: OG" || gameName == "Zplinter Zell" || gameName == "Honored 2" || gameName == "RoverWatch" || gameName == "RoverWatch Origins Edition"))
+                {
+                    Console.WriteLine("Too Expensive");
+                }
+                else if (currentBalance - price >= 0 && (gameName == "OutFall 4" || gameName == "CS: OG" || gameName == "Zplinter Zell" || gameName == "Honored 2" || gameName == "RoverWatch" || gameName == "RoverWatch Origins Edition"))
+                {
+                    Console.WriteLine($"Bought {gameName}");
+                    costs += price;
+                    currentBalance -= price;
+                }
+
+                if (currentBalance == 0)
+                {
+                    Console.WriteLine("Out of money!");
+                    return;
+                }
+
+                gameName = Console.ReadLine();
+            }
+
+            Console.WriteLine($"Total spent: ${costs:f2}. Remaining: ${currentBalance:f2}");
+        }
+    }
+}

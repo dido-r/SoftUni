@@ -1,0 +1,26 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace ReverseStrings
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                string text = Console.ReadLine();
+
+                if (text == "end")
+                {
+                    break;
+                }
+
+                var textReversed = text.Reverse();
+                Console.WriteLine($"{text} = {string.Join("", textReversed)}");
+            }
+        }
+    }
+}

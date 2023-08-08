@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Nums 1...50";
+}
+
+<div class="text-center">
+    <h2>@ViewBag.Title</h2>
+    @{
+        for (int i = 1; i <= 50; i++)
+        {
+              <li>@i</li>
+        }
+    }
+</div>
